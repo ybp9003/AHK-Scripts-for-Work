@@ -9,19 +9,33 @@ Clipboard =
 Send, ^c
 ClipWait, 2
 if ErrorLevel
-{
-    MsgBox, The attempt to copy text onto the clipboard failed.
-    return
-}
-Run CMD.exe
 	{
-	WinWaitActive ahk_class ConsoleWindowClass
+    MsgBox, The attempt to copy text onto the clipboard failed.`n`nScript will exit.
+    ExitApp
 	}
-SendRaw ENScript showNotes`n
-	Sleep 750
-Send {Raw}`"%Clipboard%"`n
-	Sleep 500
-WinClose AHK_class ConsoleWindowClass
+
+NumberofAttempts = 1
+Repeat:
+Run CMD.exe
+WinWaitActive ahk_class ConsoleWindowClass,,2
+	If ErrorLevel
+		{
+		If NumberofAttempts = 4
+			{
+			MsgBox, Four attempts to open the "DOS Window" has failed. Press OK to exit app.
+			ExitApp
+			}
+		NumberofAttempts += 1
+		Gosub Repeat
+		}
+	Else
+		NumberofAttempts += 1
+		Send ENScript showNotes`n
+			Sleep 750
+		Send {Raw}`"%Clipboard%`"`n
+			Sleep 500
+		WinClose AHK_class ConsoleWindowClass
+	
 
 ;===============================================================================
 ;enable this section if you want to search EN and NISC at the same time
