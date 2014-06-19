@@ -9,8 +9,8 @@ Send ^!t
 WinWaitActive Assign Tags,,2
 	If ErrorLevel
 		{
-		if NumberofAttempts = 4
-			MsgBox, Four attempts to open the "Assign Tags" window has failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
+		If NumberofAttempts = 4
+			MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
 		Else
 		NumberofAttempts += 1
 		Gosub StartTagging
