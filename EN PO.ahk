@@ -15,8 +15,8 @@ Gui, Add, CheckBox, x170 y390 w100 h30 vCreditCard, Credit Card
 Gui, Add, CheckBox, x170 y420 w100 h30 vOnlinePurchase, Online Purchase
 Gui, Add, Checkbox, x170 y450 w100 h30 vHelloSign +Checked, HelloSign
 Gui, Add, Checkbox, x170 y480 w100 h30 vReqSig , Requested Signature
-Gui, Add, Checkbox, x22 y330 w100 h30 +Checked vPOActive, Purchase Order Notebook
-Gui, Add, Checkbox, x22 y370 w110 h25 vWarehouse, Warehouse Tasks
+Gui, Add, Radio, x22 y330 w100 h30 +Checked vPOActive, Purchase Order Notebook
+Gui, Add, Radio, x22 y370 w110 h25 vWarehouse, Warehouse Tasks
 Gui, Add, GroupBox, x12 y310 w120 h95 , Move Note To:
 Gui, Add, Button, x12 y430 w100 h30 gSubmit, Submit
 Gui, Add, Text, x22 y10 w140 h20 , Process a PO in Evernote
@@ -36,12 +36,11 @@ StringReplace, Initiator, Initiator1, % " ", , All ;remove spaces
 FormatTime,Date,%Date%, M/d/yyyy ;changes the format of the date reported from "MonthCal" variable from 20080608 to 6/8/2008
 
 WinActivate AHK_class ENMainFrame
-	{
-	WinWaitActive AHK_class ENMainFrame
-	}
+WinWaitActive AHK_class ENMainFrame
 	Sleep 250
-Click 816,205 ;without this click the script sometimes renames the Notebook instead of the Note
-Send {F2}
+Click 1100,900 ;without this click the script sometimes renames the Notebook instead of the Note
+	Sleep 1000
+Send {F2 2}
 	Sleep 1000
 Send %poYear%%poLastThree%-PO
 	Sleep 250
@@ -152,8 +151,6 @@ WinWaitActive Move Note to Notebook,,2
 		Gosub MoveNotebook
 	Else
 	Send %Notebook%{Tab}
-		Sleep 250
-	Send {Enter}
 ExitApp
 
 GuiClose:

@@ -6,7 +6,7 @@ SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 MsgBox, 4,,Does the Cliboard equal the person's name? "%Clipboard%"
 IfMsgBox No
 {		
-	InputBox, Name, Enter the name here`n`ndon't worry about capitalization
+	InputBox, Name,, Enter the name here`n`nDon't worry about capitalization
 	Clipboard = %Name%
 	StringUpper Clipboard, Clipboard, T
 }

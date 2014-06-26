@@ -30,9 +30,7 @@ FormatTime,Date,%Date%, M/d/yyyy ;changes the format of the date reported from "
 ;===========================================================================================================
 
 WinActivate AHK_class ENMainFrame
-	{
 	WinWaitActive AHK_class ENMainFrame
-	}
 	Sleep 250
 Click 712,238 ;without this click the script sometimes renames the Notebook instead of the Note
 	Sleep 500
@@ -42,6 +40,7 @@ If ReqDescription = ;IF THIS VARIABLE IS BLANK, IT WILL NOT RETITLE THE NOTE
 	Gosub NoteCreationDate
 Send {Raw}%ReqYear%-Req %ReqNumber% [%ReqDescription%]
 	Sleep 250
+
 NoteCreationDate:
 Click 758,156 ;clicks on the "Created Date" field
 	Sleep 250

@@ -1,5 +1,5 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 ; SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
@@ -15,30 +15,33 @@ if ErrorLevel
 	}
 
 NumberofAttempts = 1
-Repeat:
-Run CMD.exe
-WinWaitActive ahk_class ConsoleWindowClass,,2
-	If ErrorLevel
-		{
-		If NumberofAttempts = 4
-			{
-			MsgBox, Four attempts to open the "DOS Window" has failed. Press OK to exit app.
-			ExitApp
-			}
-		NumberofAttempts += 1
-		Gosub Repeat
-		}
-	Else
-		NumberofAttempts += 1
-		Send ENScript showNotes`n
-			Sleep 750
-		Send {Raw}`"%Clipboard%`"`n
-			Sleep 500
-		WinClose AHK_class ConsoleWindowClass
+; Repeat:
+IfWinExist C:\Windows\system32\CMD.exe
+	WinActivate C:\Windows\system32\CMD.exe
+Else
+	Run, CMD.exe, , Min
+WinWaitActive C:\Windows\system32\CMD.exe ;,,2
+; If ErrorLevel
+	; {
+	; If NumberofAttempts = 4
+		; {
+		; MsgBox, Four attempts to open the "DOS Window" has failed. Press OK to exit app.
+		; ExitApp
+		; }
+	; NumberofAttempts += 1
+	; Gosub Repeat
+	; }
+; Else
+	Send ENScript showNotes`n
+		Sleep 750
+	Send {Raw}`"%Clipboard%`"`n
+		; Sleep 750
+	; WinClose AHK_class ConsoleWindowClass
+	WinMinimize C:\Windows\system32\CMD.exe
 	
 
 ;===============================================================================
-;enable this section if you want to search EN and NISC at the same time
+;ENABLE THIS SECTION IF YOU WANT TO SEARCH EN AND NISC AT THE SAME TIME
 	; Sleep 1000
 ; WinActivate AHK_class SunAwtFrame
 ; WinWaitActive AHK_class SunAwtFrame

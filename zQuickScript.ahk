@@ -4,20 +4,11 @@
 SetWorkingDir %A_ScriptDir%
 
 ^+0::
-; ControlGetFocus, OutputVar [, WinTitle, WinText, ExcludeTitle, ExcludeText]
-ControlGetFocus, OutputVar, AHK_class ENMainFrame
-if ErrorLevel
-    MsgBox, The target window doesn't exist or none of its controls has input focus.
-else
-    MsgBox, Control with focus = %OutputVar%
-Return
-
-^0::
-;ControlClick, Control-or-Pos, WinTitle, WinText, WhichButton, ClickCount, Options, ExcludeTitle, ExcludeText
-;SendMessage, Msg [, wParam, lParam, Control, WinTitle, WinText, ExcludeTitle, ExcludeText, Timeout]Return
-PostMessage, 0x0201,,,ENTagEditorCtrl2, AHK_class ENMainFrame
-PostMessage, 0x0202,,,ENTagEditorCtrl2, AHK_class ENMainFrame
-Return
+Repeat:
+WinActivate Program Manager
+Click 500, 900
+	Sleep 300000
+Gosub Repeat
 
 ; beginning:
 ; WinWaitActive AM Interface

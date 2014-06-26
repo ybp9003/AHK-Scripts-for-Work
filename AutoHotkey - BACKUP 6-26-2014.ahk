@@ -78,6 +78,13 @@ Return
 #IfWinActive
 
 ;_____________________________________________________________________________________
+#IfWinActive AHK_class rctrl_renwnd32 ;microsoft outlook
+:*:/ro::
+Run E:\AHK Scripts for Work\EN RO Authorized.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
 #IfWinActive ahk_class Progman
 :*:,go::
 Run E:\AHK Scripts for Work\NISC ABS SIS.ahk
@@ -92,10 +99,11 @@ Return
 :*:,pur::purchasing@hctc.coop
 :*:,pas::Hctc.367
 :*:,jh::jherring@hctc.coop
-:?*:,JMARK::jmarkwordt@hctc.coop
-:?*:,JWALLY::jwally@hctc.coop
-:?*:,DMOLD::dmoldenhauer@hctc.coop
-:?*:,hc::@hctc.coop ;the question mark makes it possible to have text directly precede the hotstring
+:*:@jh::jherring@hctc.coop
+:?*:@JMARK::jmarkwordt@hctc.coop
+:?*:@JWALLY::jwally@hctc.coop
+:?*:@DM::dmoldenhauer@hctc.coop
+:?*:@hc::@hctc.coop ;the question mark makes it possible to have text directly precede the hotstring
 
 ;_____________________________________________________________________________________
 #IfWinActive ahk_class XLMAIN
@@ -193,7 +201,7 @@ RETURN
 RETURN
 
 ;_____________________________________________________________________________________
-:*:/NewQUOTE::
+:*:/NewQT::
 ;Run S:\Joe\AutoHotKey Scripts\
 Run E:\AHK Scripts for Work\EN New Quote.ahk
 Return
@@ -306,7 +314,7 @@ Run E:\AHK Scripts for Work\EN PO.ahk
 Return
 
 ;_____________________________________________________________________________________
-:*:/ENCredit:: ;Process Credit Card recipts with no PO in Evernote
+:*:/ENCC:: ;Process Credit Card recipts with no PO in Evernote
 ;Run S:\Joe\AutoHotKey Scripts\
 Run E:\AHK Scripts for Work\EN Credit Card No PO.ahk
 Return
@@ -335,25 +343,25 @@ Run E:\AHK Scripts for Work\EN Gas Receipt.ahk
 Return
 
 ;_____________________________________________________________________________________
-:*:/TJinv::
+:*:/invTJ::
 ;Run S:\Joe\AutoHotKey Scripts\
 Run E:\AHK Scripts for Work\EN TJ Moore Invoice.ahk
 Return
 
 ;_____________________________________________________________________________________
-:*:/HCEinv::
+:*:/invHCE::
 ;Run S:\Joe\AutoHotKey Scripts\
 Run E:\AHK Scripts for Work\EN Hill Country Electric Invoice.ahk
 Return
 
 ;_____________________________________________________________________________________
-:*:/TRinv::
+:*:/invTR::
 ;Run S:\Joe\AutoHotKey Scripts\
 Run E:\AHK Scripts for Work\EN Tri-Ed Invoice.ahk
 Return
 
 ;_____________________________________________________________________________________
-:*:/PTinv::
+:*:/invPT::
 ;Run S:\Joe\AutoHotKey Scripts\
 Run E:\AHK Scripts for Work\EN PowerTel Invoice.ahk
 Return
@@ -380,9 +388,9 @@ Return
 #IfWinActive ;===================END WINDOW SENSATIVE COMMANDS "ENMainFrame"===========================
 ;======================================================================================================
 ;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-#IfWinActive AHK_class ENMainFrame ;|||BEGIN WINDOW SENSATIVE COMMANDS "ENMainFrame"|||||||||||||||||||
+#If WinActive("GL Accounting") OR WinActive("ahk_class SunAwtFrame") ;|||||||||||||||||||||||||||||||||
 ;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-#If WinActive("GL Accounting") OR WinActive("ahk_class SunAwtFrame") ;BEGIN WINDOW SENSATIVE COMMANDS "GL Accounting Or SunAwtFrame"
+;BEGIN WINDOW SENSATIVE COMMANDS "GL Accounting Or SunAwtFrame"
 
 :*:/tool:: ;enters the GL 6571 in a NISC accounting screen
 ;Run S:\Joe\AutoHotKey Scripts\

@@ -9,7 +9,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; Generated using SmartGUI Creator 4.0
 Gui, Add, Edit, x12 y60 w100 h20 vspent, $$Spent
 Gui, Add, Edit, x12 y90 w160 h20 vCpny, Company Name
-Gui, Add, Edit, x12 y120 w100 h20 vDate, Date (MM/DD)
+Gui, Add, Edit, x12 y120 w100 h20 vDate, Purchase Day (##)
+;Gui, Add, Checkbox, 
 Gui, Add, Button, x12 y150 w70 h20 gSubmit , Submit
 Gui, Add, Text, x12 y10 w200 h40 , When submitted`, this script will apply the information entered into the current active note in the Evernote Main Window
 Gui, Show, x127 y87 h195 w235, New GUI Window
@@ -17,52 +18,57 @@ Return
 
 Submit:
 Gui, Submit
-	{
+
 	StringReplace, tagCpny, Cpny, % " ", , All ;remove spaces
 	StringMid, tagCpny, tagCpny, 10, 50, L ;remove all but the first ten characters (don't know what will happen if the string goes over 50 characters)
-	}
+	StringUpper Cpny, Cpny, T ;changes the Cpny variable to Title Case
+	
 WinActivate ahk_class ENMainFrame
-	{
-	WinWaitActive ahk_class ENMainFrame
-	}
-	{
-	MouseClick,Left,710,240 ;click on note title
-	Send {F2}
-		Sleep 1000
-	Send %Cpny%{Space}receipt{Space}$%spent%
-		Sleep 1000
+WinWaitActive ahk_class ENMainFrame
+
+MouseClick,Left,710,240 ;click on note title
+Send {F2}
+	Sleep 1000
+Send %Cpny%{Space}receipt{Space}$%spent%
+	Sleep 1000
 MouseClick, Left, 757, 155 ;click on date field
-		Sleep 1500
-	Send %Date%`n
-		Sleep 1700
-	}
+	Sleep 1500
+Send %Date%`n
+	Sleep 1700
+
 WinActivate AHK_class ENMainFrame
+NumberofAttempts = 1
+StartTagging:
 Send ^!t
-WinWaitActive Assign Tags
+WinWaitActive Assign Tags,,2
+If ErrorLevel
 	{
-	Send %A_YYYY%{Space}
-		Sleep 1500
-	Send %A_MM%%A_MMMM%{Space} ;two digit month followed by the month name
-		Sleep 1500
-	Send Receipt{Space}
-		Sleep 1500
-	Send CreditCardnoPO{Space}
-		Sleep 1500
-	Send %tagCpny% ;doesn't hit enter here just in case there is another tag to enter or create
+	If NumberofAttempts = 4
+		MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
+	Else
+		NumberofAttempts += 1
+		Gosub StartTagging
 	}
+Else
+	Sleep 350
+Tags = %A_YYYY%{Space}|%A_MM%%A_MMMM%{Space}|Receipt{Space}|CreditCardnoPO{Space}
+Loop, Parse, Tags, |
+	{
+	Send %A_LoopField%
+		Sleep 1200
+	}
+Send %tagCpny% ;doesn't hit enter here just in case there is another tag to enter or create
 WinWaitActive AHK_class ENMainFrame
 	Send !nv
 WinWaitActive Move Note to Notebook
 	Send 03{Tab}
 		Sleep 250
 	Send {Enter}
-ExitApp
-MsgBox, 4,,Execute script for another receipt?
-	{
-	IfMsgBox Yes
-	Gui, Show
-	}
-ExitApp
+
+Gui, Show
 Return
+
+GuiClose:
+ExitApp
 
 Esc::ExitApp

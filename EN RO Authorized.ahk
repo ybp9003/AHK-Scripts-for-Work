@@ -159,7 +159,7 @@ Else
 		Sleep 500
 WinClose AHK_class ConsoleWindowClass
 
-InputBox, 4,,Is there a duplicate RO note that needs to be removed?
+MsgBox, 4,,Is there a duplicate RO note that needs to be removed?
 	IfMsgBox No
 		Gosub MoveNotetoAccounting
 SplashTextOn,200,90, Waiting, Click on the note that needs to be removed.
