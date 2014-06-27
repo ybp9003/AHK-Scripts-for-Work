@@ -4,7 +4,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 Gui, Add, ComboBox, x22 y30 w140 h20 vDept , ACCT||ADMIN|BD|COE|CS|HR|IFIX||IP|OSP|OSS|PLT|PMM|SECA
-Gui, Add, ComboBox, x22 y60 w140 vInitiator1 , ALAN LINK||APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL|DAVID MOLDENHAUER|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN||PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
+Gui, Add, ComboBox, x22 y60 w140 vInitiator1 , ALAN LINK||APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL||DAVID MOLDENHAUER|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN|PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
 Gui, Add, Edit, x92 y100 w60 h20 vpoYear , %A_YYYY%
 Gui, Add, Edit, x152 y100 w50 h20 vpoLastThree , 
 Gui, Add, MonthCal, x22 y130 vDate , Month/Day ;Gui, Add, MonthCal, x232 y140 w240 h170 vDate, 
@@ -27,7 +27,7 @@ Gui, Show, x150 y450 ,
 Return
 
 Submit:
-Gui, Submit, NoHide
+Gui, Submit
 
 If poLastThree = 
 	InputBox, poLastThree,, Oops! You must enter the last three numbers of the PO to proceed.
@@ -143,15 +143,23 @@ If POActive = 1
 If Warehouse = 1
 	Notebook = .WarehouseTasks
 ;===========================================================================================================
-MoveNotebook:
 WinWaitActive AHK_class ENMainFrame
-	Send !nv
+NumberofAttempts = 1
+MoveToNotebook:
+Send !nv
 WinWaitActive Move Note to Notebook,,2
-	If ErrorLevel
-		Gosub MoveNotebook
+If ErrorLevel
+	{
+	If NumberofAttempts = 4
+		MsgBox, Four attempts to move the note has failed`n`nMove the note manually, then press OK.
 	Else
-	Send %Notebook%{Tab}
-ExitApp
+		NumberofAttempts += 1
+		Gosub MoveToNotebook
+		}
+Else
+Send %Notebook%{Tab}
+Gui, Show
+Return
 
 GuiClose:
 ExitApp

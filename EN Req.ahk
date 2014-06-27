@@ -23,7 +23,7 @@ Gui, Show, x150 y450 ,
 Return
 
 Submit:
-Gui, Submit
+Gui, Submit, NoHide
 ;===========================================================================================================
 StringReplace, Initiator, Initiator1, % " ", , All ;remove spaces
 FormatTime,Date,%Date%, M/d/yyyy ;changes the format of the date reported from "MonthCal" variable from 20080608 to 6/8/2008
