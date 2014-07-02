@@ -10,8 +10,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 MsgBox NOTE: BEFORE SELECTION AN OPTION!`nBe sure you have brought the note you are about to process to focus in Evernote.
 
 Gui, Add, Text, x22 y20 w200 h20 , Select the report needed to be processed.
-Gui, Add, Text, x52 y50 , Date of Report (M/D)
-Gui, Add, Edit, x160 y47 w50 h20 vDATE, (M/D)
+Gui, Add, Text, x52 y50 , Reporting Month
+Gui, Add, Combobox, x160 y47 h20 vMonthTag, 01January||02February|03March|04April|05May|06June|07July|08August|09September|10October|11November|12December
 Gui, Add, Button, x22 y80 w220 h20 gMVLV1 , Monthly Vehicle Log (Vehicles)
 Gui, Add, Button, x22 y110 w220 h20 gMVLE1 , Monthly Vehicle Log (Equipment)
 Gui, Add, Button, x22 y140 w220 h20 gETL1 , Equipment Time Logsheet
@@ -21,89 +21,93 @@ Gui, Add, Button, x22 y200 w220 h20 gFUEL1 , Fuel Report
 Gui, Show, x75 y770 , Report Selector
 Return
 
-Gui, 1:Submit
 
 MVLV1:
+Gui, Submit
 	Document = MVLV2
 	Gosub AssignProperMonthTag
 MVLE1:
+Gui, Submit
 	Document = MVLE2
 	Gosub AssignProperMonthTag
 ETL1:
+Gui, Submit
 	Document = ETL2
 	Gosub AssignProperMonthTag
 VRO1:
+Gui, Submit
 	Document = VRO2
 	Gosub AssignProperMonthTag
 FUEL1:
+Gui, Submit
 	Document = FUEL2
 	Gosub AssignProperMonthTag
 
 AssignProperMonthTag:
-If DATE := "1/31"
+If MonthTag = 01January
 	{
-	MonthTag = 01January
+	Date = 1/31
 	Gosub %Document%
 	}
-If DATE := "2/31"
+If MonthTag = 02February
 	{
-	MonthTag = 02February
+	Date = 2/28
 	Gosub %Document%
 	}
-If DATE := "3/31"
+If MonthTag = 03March
 	{
-	MonthTag = 03March
+	Date = 3/31
 	Gosub %Document%
 	}
-If DATE := "4/31"
+If MonthTag = 04April
 	{
-	MonthTag = 04April
+	Date = 4/30
 	Gosub %Document%
 	}
-If DATE := "5/31"
+If MonthTag = 05May
 	{
-	MonthTag = 05May
+	Date = 5/31
 	Gosub %Document%
 	}
-If DATE := "6/31"
+If MonthTag = 06June
 	{
-	MonthTag = 06June
+	Date := "6/30"
 	Gosub %Document%
 	}
-If DATE := "7/31"
+If MonthTag = 07July
 	{
-	MonthTag = 07July
+	Date = 7/31
 	Gosub %Document%
 	}
-If DATE := "8/31"
+If MonthTag = 08august
 	{
-	MonthTag = 08August
+	Date = 8/31
 	Gosub %Document%
 	}
-If DATE := "9/31"
+If MonthTag = 09September
 	{
-	MonthTag = 09September
+	Date = 9/30
 	Gosub %Document%
 	}
-If DATE := "10/31"
+If MonthTag = 10October
 	{
-	MonthTag = 10October
+	Date = 10/31
 	Gosub %Document%
 	}
-If DATE := "11/31"
+If MonthTag = 11November
 	{
-	MonthTag = 11November
+	Date = 11/30
 	Gosub %Document%
 	}
-If DATE := "12/31"
+If MonthTag = 12December
 	{
-	MonthTag = 12December
+	Date = 12/31
 	Gosub %Document%
 	}
 
-MVLV2:
-MsgBox It went to MVLV2
-MsgBox MonthTag equals %MonthTag%
+;==========================================================================================================================
+MVLV2: ;this is the "Document" tag
+MsgBox It went to MONTHLY VEHICLE LOG VEHICLES 2`nMonthTag equals %MonthTag%`nDate equals %DATE%
 {
 WinActivate AHK_class ENMainFrame
 	{
@@ -112,7 +116,7 @@ WinActivate AHK_class ENMainFrame
 Click 1100,800
 Send {F2}
 	Sleep 1000
-Send Bill's Monthly Vehicle Log - Auto
+Send Bill's Monthly Vehicle Log - Auto %Date%
 	Sleep 250
 Click 748,159
 	Sleep 1500
@@ -134,7 +138,7 @@ WinWaitActive Assign Tags,,2
 		}
 	Else
 
-	Tags = %MonthTag%,%A_YYYY%,BillyWarren,Logsheet,Report
+Tags = %MonthTag%,%A_YYYY%,BillyWarren,Logsheet,Report
 Loop, Parse, Tags, `,
 {
 Send %A_LoopField%{Space}
@@ -160,20 +164,13 @@ WinWaitActive Move Note to Notebook,,2
 Send 11{Tab}
 	Sleep 250
 Send {Enter}
+Gui, Show
+Exit
 
-MsgBox, 4,,Process another report?
-IfMsgBox Yes
-	{
-	Gui, 1:Show
-	Return
-	}
-ExitApp
+;==========================================================================================================================
+MVLE2: ;this is the "Document" tag
+MsgBox It went to MONTYLY VEHICLE LOG EQUIPMENT 2`nMonthTag equals %MonthTag%`nDate equals %DATE%
 
-
-MVLE2:
-MsgBox It went to MVLE2
-MsgBox MonthTag equals %MonthTag%
-{
 WinActivate AHK_class ENMainFrame
 	{
 	WinWaitActive AHK_class ENMainFrame
@@ -181,7 +178,7 @@ WinActivate AHK_class ENMainFrame
 Click 1100,800
 Send {F2}
 	Sleep 1000
-Send Bill's Monthly Vehicle Log - Equipment
+Send Bill's Monthly Vehicle Log - Equipment %Date%
 	Sleep 250
 Click 748,159
 	Sleep 1500
@@ -229,19 +226,14 @@ Send 11{Tab}
 	Sleep 250
 Send {Enter}
 
-MsgBox, 4,,Process another report?
-IfMsgBox Yes
-	{
-	Gui, 1:Show
-	Return
-	}
-ExitApp
-}
+Gui, Show
+Exit
 
-ETL2:
-MsgBox It went to ETL2
-MsgBox MonthTag equals %MonthTag%
-{
+
+;==========================================================================================================================
+ETL2: ;this is the "Document" tag
+MsgBox It went to EQUIPMENT TIME LOG 2`nMonthTag equals %MonthTag%`nDate equals %DATE%
+
 WinActivate AHK_class ENMainFrame
 	{
 	WinWaitActive AHK_class ENMainFrame
@@ -249,7 +241,7 @@ WinActivate AHK_class ENMainFrame
 Click 1100,800
 Send {F2}
 	Sleep 1000
-Send Equipment Time Log Sheet
+Send Equipment Time Log Sheet %Date%
 	Sleep 250
 Click 748,159
 	Sleep 1500
@@ -297,19 +289,14 @@ Send 11{Tab}
 	Sleep 250
 Send {Enter}
 
-MsgBox, 4,,Process another report?
-IfMsgBox Yes
-	{
-	Gui, 1:Show
-	Return
-	}
-ExitApp
-}
+Gui, Show
+Exit
 
-VRO2:
-MsgBox It went to VRO2
-MsgBox MonthTag equals %MonthTag%
-{
+
+;==========================================================================================================================
+VRO2: ;this is the "Document" tag
+MsgBox It went to VEHICLE RO 2`nMonthTag equals %MonthTag%`nDate equals %DATE%
+
 WinActivate AHK_class ENMainFrame
 	{
 	WinWaitActive AHK_class ENMainFrame
@@ -317,7 +304,7 @@ WinActivate AHK_class ENMainFrame
 Click 1100,800
 Send {F2}
 	Sleep 1000
-Send Billy's Requisition Order Log
+Send Billy's Requisition Order Log %Date%
 	Sleep 250
 Click 748,159
 	Sleep 1500
@@ -365,16 +352,12 @@ Send 11{Tab}
 	Sleep 250
 Send {Enter}
 
-MsgBox, 4,,Process another report?
-IfMsgBox Yes
-	{
-	Gui, 1:Show
-	Return
-	}
-ExitApp
-}
+Gui, Show
+Exit
 
-FUEL2:
+
+;==========================================================================================================================
+FUEL2: ;this is the "Document" tag
 MsgBox It went to FUEL2
 MsgBox MonthTag equals %MonthTag%
 Gui, 2:Add, Text, x12 y10 w120 h30 , Enter the month this report corresponds with
@@ -389,11 +372,10 @@ Return
 FuelSubmitButton:
 Gui, 2:Submit, Hide
 
-{
+
 WinActivate AHK_class ENMainFrame
-	{
-	WinWaitActive AHK_class ENMainFrame
-	}
+WinWaitActive AHK_class ENMainFrame
+
 Click 1100,800
 Send {F2}
 	Sleep 1000
@@ -421,10 +403,10 @@ WinWaitActive Assign Tags,,2
 	Else
 Tags = %MonthTag%,%A_YYYY%,Fuel,VehicleReport
 Loop, Parse, Tags, `,
-{
-Send %A_LoopField%{Space}
-	Sleep 1500
-}
+	{
+	Send %A_LoopField%{Space}
+		Sleep 1500
+	}
 Send {Enter}
 WinWaitActive AHK_class ENMainFrame
 
@@ -452,12 +434,10 @@ IfMsgBox Yes
 	Gui, 1:Show
 	Return
 	}
-ExitApp
-}
-ExitApp
+Gui, Show
+Exit
 
 GuiClose:
 ExitApp	
-
 
 Esc::ExitApp

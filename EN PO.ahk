@@ -143,6 +143,7 @@ If POActive = 1
 If Warehouse = 1
 	Notebook = .WarehouseTasks
 ;===========================================================================================================
+MoveNotebook:
 WinWaitActive AHK_class ENMainFrame
 NumberofAttempts = 1
 MoveToNotebook:

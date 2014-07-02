@@ -15,7 +15,7 @@ Gui, Add, Text, x12 y180 w100 h30 , Oil
 Gui, Add, Text, x12 y220 w100 h30 , Odometer at last oil change
 Gui, Add, Text, x12 y260 w100 h30 , Inspection $$$
 Gui, Add, Edit, x122 y20 w100 h30 vVehNum ,
-Gui, Add, Combobox, x250 y20 vMonth, JANUARY|FEBRUARY|MARCH|APRIL|MAY||JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER
+Gui, Add, Combobox, x250 y20 vMonth, JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE||JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER
 Gui, Add, Edit, x122 y60 w100 h30 vOdometer , {Del}
 Gui, Add, Edit, x122 y100 w570 h30 vFuel , =
 Gui, Add, Edit, x122 y140 w100 h30 vHours , =
@@ -34,7 +34,8 @@ Gui, Submit
 If (VehNum = "")
 	{
 	MsgBox, ERROR!`nA vehicle number must be entered!
-	ExitApp
+	Gui, Show
+	Exit
 	}
 WinActivate ahk_class XLMAIN
 Send ^f
@@ -44,22 +45,25 @@ Send ^f
 	Sleep 300
 	}
 WinClose Find and Replace
-Gosub % Month
+Gosub %Month%
 
 ;===========================================================================================================================
 APRIL:
-Steps = {Right 3}|{Down 3}|%Odometer%`n|{Up}|{Right 3}|{Raw}%Fuel%`n|{Right}|{Up}|{Raw}%Hours%`n|{Left 2}|{Up}|%Oil%`n|{Left 4}|{Down 2}|%OilChangeMiles%`n|{Up}|
+MsgBox April?
+Steps = {Right 3}|{Down 3}|%Odometer%`n|{Up}|{Right 3}|{Raw}%Fuel%`n|{Right}|{Up}|{Raw}%Hours%`n|{Left 2}|{Up}|%Oil%`n|{Left 4}|{Down 2}|%OilChangeMiles%`n|{Up 6}|{Left}
 Loop, Parse, Steps, |
 	{
 	Send % A_LoopField
 	Sleep 1000
 	}
-Gosub GuiClose
+Gui, Show
+Exit
 
 ;===========================================================================================================================
 MAY:
-Steps = {Right 3}|{Down 4}|%Odometer%`n|{Up}|{Right}|%Oil%`n|{Up}|{Right}|{Raw}%Fuel%`n|{Up}|{Right}|{Raw}%Hours%`n|{Left 5}|{Down 1}|%OilChangeMiles%`n
-{
+MsgBox May?
+Steps = {Right 3}|{Down 4}|%Odometer%`n|{Up}|{Right}|%Oil%`n|{Up}|{Right}|{Raw}%Fuel%`n|{Up}|{Right}|{Raw}%Hours%`n|{Left 5}|{Down 1}|%OilChangeMiles%`n|{Up 6}|{Left}
+
 Loop, Parse, Steps, |
 	{
 	Send % A_LoopField
@@ -67,25 +71,41 @@ Loop, Parse, Steps, |
 	}
 If Inspection = 1
 	Gosub UpdateInspection
-Gosub GuiClose
-}
+Gui, Show
+Exit
+
+;===========================================================================================================================
+JUNE:
+; MsgBox June?
+Steps = {Right 3}|{Down 5}|%Odometer%`n|{Up}|{Right}|%Oil%`n|{Up}|{Right}|{Raw}%Fuel%`n|{Up}|{Right}|{Raw}%Hours%`n|{Left 5}|%OilChangeMiles%`n|{Up 6}|{Left}
+
+Loop, Parse, Steps, |
+	{
+	Send % A_LoopField
+	Sleep 10
+	}
+If Inspection = 1
+	{
+	Gosub UpdateInspection
+	MsgBox Inspection equaled 1
+	}
+Gui, Show
+Exit
 
 ;===========================================================================================================================
 ;===========================================================================================================================
-GuiClose:
-ExitApp
 
 UpdateInspection:
 Inspection := A_YYYY + 1
-InspectionSteps = {Up 4}|{Left}|{F2}|{End}|{BackSpace 2}|%Inspection%`n
+InspectionSteps = {Down 2}|{F2}|{End}|{BackSpace 2}|%Inspection%`n
 Loop, Parse, InspectionSteps, |
 	{
 	Send % A_LoopField
 		Sleep 10
 	}
-Gosub GuiClose
+ExitApp
 
-
-
+GuiClose:
+ExitApp
 
 Esc::ExitApp

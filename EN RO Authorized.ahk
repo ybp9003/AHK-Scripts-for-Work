@@ -9,6 +9,9 @@ InputBox, RONumber,, RO Number being processed:
 InputBox, Approver,, Approver's name:
 InputBox, Dept,, Approver's department:
 
+StringReplace, Approver, Approver, % " ", , All ;remove spaces
+
+
 ; MsgBox, ACTIVATING OUTLOOK
 NumberofAttempts = 1
 ActivateOutlook1:
