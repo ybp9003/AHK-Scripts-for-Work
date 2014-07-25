@@ -4,10 +4,14 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode 2
 
-Gui, Add, Edit, x22 y20 w130 h20 vLast3 , PO Last three ###'s
-Gui, Add, CheckBox, x22 y50 w130 h30 vTerms , Terms and Conditions
-Gui, Add, CheckBox, x22 y90 w130 h20 v5k , PO over $5`,000
-Gui, Add, Button, x32 y120 w70 h30 gOKButton , OK
+Gui, Add, Edit, w130 h20 vLast3 , PO Last three ###'s
+Gui, Add, CheckBox, vTerms , Terms and Conditions
+Gui, Add, CheckBox, v5k , PO over $5`,000
+Gui, Add, Text, ,
+Gui, Add, Text, ,Send Document to:
+Gui, Add, Radio, +Checked vSteveCopp, Steve Copp
+Gui, Add, Radio, vAlanLink, Alan Link
+Gui, Add, Button,w70 h30 Default gOKButton , OK
 ; Generated using SmartGUI Creator 4.0
 Gui, Show, x436 y635 , New GUI Window
 Return
@@ -80,11 +84,20 @@ WinActivate, Google Chrome
 	Sleep 500
 Send ^a
 	Sleep 150
-Send Steve Copp
+If SteveCopp = 1
+	{
+	Send Steve Copp
+	EmailAddress := "scopp@hctc.coop"
+	}
+If AlanLink = 1
+	{
+	Send Alan Link
+	EmailAddress := "alink@hctc.coop"
+	}
 	Sleep 150
 Send {tab}
 	Sleep 150
-Send scopp@hctc.coop
+Send % EmailAddress
 Send {tab 3}
 	Sleep 250
 Send %A_YYYY%%Last3%-PO
@@ -120,10 +133,14 @@ Click,1360,144 ;click "Continue"
 MouseMove 380,1000 ;moves mouse to the "Request Signature" button
 
 FileRecycle, %A_Desktop%\%A_YYYY%%Last3%.pdf ;sends the PO to the recycle bin
+
+MsgBoxTest:
+MsgBox The hot key worked!
+
 GuiClose:
 ExitApp
 
-Esc::ExitApp
+ScrollLock::ExitApp
 
 
 

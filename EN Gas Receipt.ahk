@@ -1,6 +1,6 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
-;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 Gui, Add, Edit, w200 h19 vCst Left, Cost
@@ -12,36 +12,28 @@ Gui, Show , x180 y750, Collection Purchase Info
 Return
 
 Submit:
-{
+
 Gui, Submit
 
 ;add purchase information to the note
-	{
-	WinActivate AHK_class ENMainFrame
-		{
-		WinWaitActive AHK_class ENMainFrame
-		}
-	}
-	{
-	SendEvent Line{Space}`n
-	Send ^+c
+WinActivate AHK_class ENMainFrame
+WinWaitActive AHK_class ENMainFrame
+Send ^+c
 	Sleep 1000
-	SendEvent Recd
-	}
+Send Line%A_Space%
+
 ;Update the note title and change note "created date" to match purchase date on the receipt
-	{
-	MouseClick,Left,850,238
+Click,850,238
 	Sleep 250
-	Send {F2}
+Send {F2}
 	Sleep 750
-	Send {End}
+Send {End 2}
 	Sleep 150
-	Send {Space}$%Cst% %Dt%/%A_YYYY% %Hr%:%Mn%
-	MouseClick, Left, 774, 159
+Send %A_Space%$%Cst% %Dt%/%A_YYYY% %Hr%:%Mn%
+Click,774,159
 	Sleep 1000
-	Send %Dt%`n
+Send %Dt%`n
 	Sleep 1500
-	}
 
 ;remove the tag "Task"
 Send ^!t ;begin tagging the note
@@ -53,7 +45,6 @@ WinWaitActive Assign Tags,,2
 		}
 Send task{Space}
 
-}
 MsgBox, 4,, Process another receipt?
 IfMsgBox Yes
 	{
@@ -65,4 +56,4 @@ IfMsgBox Yes
 GuiClose: 
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

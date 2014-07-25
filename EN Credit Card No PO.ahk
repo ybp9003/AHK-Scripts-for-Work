@@ -59,11 +59,8 @@ Loop, Parse, Tags, |
 	}
 Send %tagCpny% ;doesn't hit enter here just in case there is another tag to enter or create
 WinWaitActive AHK_class ENMainFrame
-	Send !nv
-WinWaitActive Move Note to Notebook
-	Send 03{Tab}
-		Sleep 250
-	Send {Enter}
+Click, 673,126
+Send 03
 
 Gui, Show
 Return
@@ -71,4 +68,4 @@ Return
 GuiClose:
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

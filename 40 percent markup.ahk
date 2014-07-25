@@ -23,4 +23,4 @@ KeyWait, LButton, D
 Send % "$"d
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

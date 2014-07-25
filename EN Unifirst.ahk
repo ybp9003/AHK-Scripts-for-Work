@@ -20,14 +20,14 @@ Submit:
 Gui, Submit
 
 WinActivate AHK_class ENMainFrame
-	{
 	WinWaitActive AHK_class ENMainFrame
-	}
 Click 686, 242
 	Sleep 500
 Send {Enter}
 	Sleep 250
-SendEvent ^+c
+Send {Up}
+	Sleep 250
+Send ^+c
 	Sleep 250
 Send Invoice %InvNO%
 Send ^s
@@ -64,13 +64,10 @@ Send %MoDy%`n
 Send ^s
 	Sleep 1000
 
-WinActivate AHK_class ENMainFrame
-Send !n
-	Sleep 350
-Send v
-WinWaitActive, Move Note to Notebook,, 5 ;waits 5 seconds for the widow to open.
-	If ErrorLevel
-		MsgBox The "Move Note To Notebook" didn't open.`nOpen it and then press OK.
+SplashTextOn, 200,50, Move To Notebook, Waiting for the "Move Note to Notebook" window to open
+WinMove, Move To Notebook, , 5, 5 ;move splash window to the top left corner
+WinWaitActive Move Note to Notebook
+SplashTextOff
 Move = 03|{Tab}|!o
 Loop, Parse, Move, |
 	{
@@ -85,4 +82,4 @@ IfMsgBox Yes
 	Return
 	}
 ExitApp
-Esc::ExitApp
+Scrolllock::ExitApp

@@ -117,4 +117,4 @@ WinRestore ahk_class SunAwtFrame
 GuiClose:
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

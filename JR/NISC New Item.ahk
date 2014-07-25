@@ -50,4 +50,4 @@ Send %cycleCountClass%
 ;Send !s
 MsgBox, Don't forget to fill in the information needed in both the "Location" and "PO Info" tabs!
 ExitApp
-Esc::ExitApp
+scrolllock::exitapp

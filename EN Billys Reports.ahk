@@ -440,4 +440,4 @@ Exit
 GuiClose:
 ExitApp	
 
-Esc::ExitApp
+ScrollLock::ExitApp

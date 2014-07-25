@@ -11,7 +11,7 @@ Gui, Add, Combobox, x112 y70 w130 h20 vRequestor, KERRY SUTTON|JIMMY DREISS
 Gui, Add, Text, x12 y100 w70 h20 , Req Number
 Gui, Add, Edit, x112 y100 w130 h20 vReq, N/A
 Gui, Add, Text, x12 y130 w80 h20 , GL Account
-Gui, Add, Edit, x112 y130 w150 h100 vGL, x.x.xxxx.xxx
+Gui, Add, Edit, x112 y130 w200 h100 vGL, x.x.xxxx.xxx
 Gui, Add, Text, x12 y240 w80 h20 , Work Order
 Gui, Add, Edit, x112 y240 w130 h20 vWO, N/A
 Gui, Add, Text, x12 y270 w80 h20 , Budget Item
@@ -21,7 +21,7 @@ Gui, Add, Edit, x112 y350 w130 h20 vON, Order Number
 Gui, Add, CheckBox, x12 y380 w160 h20 vCCP, CREDIT CARD PURCHASE
 Gui, Add, Button, x112 y410 w100 h30 , Submit
 ; Generated using SmartGUI Creator 4.0
-Gui, Show, x80 y700 h448 w280, BUSINESS DEVELOPMENT PO Message
+Gui, Show, x80 y700 , BUSINESS DEVELOPMENT PO Message
 Return
 
 ButtonSubmit:
@@ -51,4 +51,4 @@ Send -------------------------------------------
 GuiClose:
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

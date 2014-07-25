@@ -63,4 +63,4 @@ IfMsgBox No
 	}
 Gosub BeginAction
 
-Esc::ExitApp
+Scrolllock::ExitApp

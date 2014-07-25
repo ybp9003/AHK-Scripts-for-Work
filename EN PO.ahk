@@ -141,28 +141,17 @@ If POActive = 1
 	Notebook = 04.POs
 	Gosub MoveNotebook
 If Warehouse = 1
-	Notebook = .WarehouseTasks
+	Notebook := ".WarehouseTasks"
 ;===========================================================================================================
 MoveNotebook:
 WinWaitActive AHK_class ENMainFrame
-NumberofAttempts = 1
-MoveToNotebook:
-Send !nv
-WinWaitActive Move Note to Notebook,,2
-If ErrorLevel
-	{
-	If NumberofAttempts = 4
-		MsgBox, Four attempts to move the note has failed`n`nMove the note manually, then press OK.
-	Else
-		NumberofAttempts += 1
-		Gosub MoveToNotebook
-		}
-Else
+Click 670,124
+	Sleep 1000
 Send %Notebook%{Tab}
 Gui, Show
-Return
+Exit
 
 GuiClose:
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

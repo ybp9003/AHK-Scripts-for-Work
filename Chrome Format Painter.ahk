@@ -24,4 +24,4 @@ Click 156, 179
 Click %Xpaint%, %Ypaint%
 Gosub Beginning
 
-Esc::ExitApp
+ScrollLock::ExitApp

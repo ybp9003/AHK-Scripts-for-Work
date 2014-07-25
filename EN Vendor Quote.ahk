@@ -28,4 +28,4 @@ WinWaitActive AHK_class ENMainFrame
 	}
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

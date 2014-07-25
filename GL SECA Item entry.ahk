@@ -24,4 +24,4 @@ WinWaitActive GL Accounting
 
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

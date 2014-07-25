@@ -19,4 +19,4 @@ Send 03.accounting{Tab}
 Send {Enter}
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

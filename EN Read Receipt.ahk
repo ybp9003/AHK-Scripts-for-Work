@@ -56,4 +56,4 @@ Run C:\Program Files (x86)\Evernote\Evernote\ENScript.exe syncDatabase
 }
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

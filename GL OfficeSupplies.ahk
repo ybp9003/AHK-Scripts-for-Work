@@ -34,4 +34,4 @@ IfWinActive ahk_class SunAwtFrame
 	ExitApp
 	}
 
-Esc::ExitApp
+Scrolllock::ExitApp

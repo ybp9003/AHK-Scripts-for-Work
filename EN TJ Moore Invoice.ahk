@@ -24,4 +24,4 @@ WinWaitActive Move Note to Notebook
 	Send {Enter}
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

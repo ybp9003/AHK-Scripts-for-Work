@@ -3,9 +3,13 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-Run C:\Windows\SysWOW64\javaws.exe http://46575app/apps/46575/lau/lau.jnlp
-WinWaitActive Login - http://46575app:35000/lau
-SendEvent ABS46575app{enter}
-ExitApp
+; Display in real time the active window's control list:
+#Persistent
+SetTimer, WatchActiveWindow, 200
+return
+WatchActiveWindow:
+WinGet, ControlList, ControlList, A
+ToolTip, %ControlList%
+return
 
-Scrolllock::ExitApp
+ScrollLock::ExitApp

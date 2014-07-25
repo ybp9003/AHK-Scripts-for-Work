@@ -6,8 +6,8 @@ SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 
 ;NEED TO REPLACE INPUTBOXES WTHT A Gui
 InputBox, RONumber,, RO Number being processed:
-InputBox, Approver,, Approver's name:
-InputBox, Dept,, Approver's department:
+InputBox, Approver,, Approver's name:`n`nSpaces will be automatically removed
+InputBox, Dept,, Approver's department:`n`nShould match the tag that will be applied
 
 StringReplace, Approver, Approver, % " ", , All ;remove spaces
 
@@ -41,11 +41,15 @@ If ErrorLevel
 		Gosub PrintDialog
 	}
 Else
-	SplashTextOn,200,90, Waiting, Select the proper printer.`nPress the RControl key to continue.
-	WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+TrayTip, Help, Select the proper printer then press the RCONTROL key to continue, 30, 1
+
+	; SplashTextOn,200,90, Waiting, Select the proper printer.`nPress the RControl key to continue.
+	; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 	KeyWait, RControl, D
 		Sleep 250
-	SplashTextOff
+	; SplashTextOff
+TrayTip
+		sleep 5000
 	Send {Enter}
 
 ; MsgBox, SAVE AS DIALOG SHOULD NOW APPEAR, SHOULD SAVE EMAIL AS PDF TO DESKTOP
@@ -62,35 +66,22 @@ If ErrorLevel
 		Gosub SaveAsDialog
 	}
 Else
-	Send %A_Desktop%\%RONumber%{Enter}
+	Send %A_Desktop%\EN Joe\%RONumber% Aproved{Enter}
 
-
-; NumberofAttempts = 1
-; ActivateEN:
-; WinActivate AHK_class ENMainFrame
-; WinWaitActive AHK_class ENMainFrame,,2
-; If ErrorLevel
-	; {
-	; If NumberofAttempts = 4
-		; MsgBox, Four attempts to activate "Evernote" have failed.`n`nThe script will now exit.
-	; Else
-		; NumberofAttempts += 1
-		; Gosub ActivateEN
-	; }
-; Else
-; MsgBox, CREATING A NEW RONUMBER NOTE IN "JOE"
-Run %A_Desktop%\Evernote Templates\RO Number Approved.enex
-SplashTextOn,400,90, Waiting, New note created in Joe called "RO Number Approved".`nSelect it, then press the RControl key to continue.
-WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+TrayTip, Help, New note created in Joe's Busienss Notebook`nSelect it`nthen press the RCONTROL key to continue, 30, 1
+; SplashTextOn,300,90, Waiting, New note created in Joe's Busienss Notebook.`nSelect it, then press the RControl key to continue.
+; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 KeyWait, RControl, D
 	Sleep 250
-SplashTextOff
+; SplashTextOff
+TrayTip
+	Sleep 5000
 
 ; MsgBox, RENAMING NOTE
 Click, 750,350
 Send {F2 2}
 	Sleep 500
-Send %RONumber%`n
+Send %RONumber% Approved`n
 	Sleep 1000
 
 ; MsgBox, TAGGING THE NOTE
@@ -120,24 +111,24 @@ Send {Enter}
 	Sleep 1000
 
 ; MsgBox, ATTACHING PDF TO NOTE (ALT+F F)
-NumberofAttempts = 1
-AttachFiletoNote:
-	Send !f
-		Sleep 250
-	Send f
-WinWaitActive Open,,2
-If ErrorLevel
-	{
-	If NumberofAttempts = 4
-		MsgBox, Four attempts to activate "Save As Dialog" have failed.`n`nThe script will now exit.
-	Else
-		NumberofAttempts += 1
-		WinActivate AHK_class ENMainFrame
-		Gosub AttachFiletoNote
-	}
-Else
-Send %A_Desktop%\%RONumber%.pdf{Enter}
-	Sleep 1000
+; NumberofAttempts = 1
+; AttachFiletoNote:
+	; Send !f
+		; Sleep 250
+	; Send f
+; WinWaitActive Open,,2
+; If ErrorLevel
+	; {
+	; If NumberofAttempts = 4
+		; MsgBox, Four attempts to activate "Save As Dialog" have failed.`n`nThe script will now exit.
+	; Else
+		; NumberofAttempts += 1
+		; WinActivate AHK_class ENMainFrame
+		; Gosub AttachFiletoNote
+	; }
+; Else
+; Send %A_Desktop%\%RONumber%.pdf{Enter}
+	; Sleep 1000
 
 ; MsgBox, F6 SEARCH FOR %RONumber%
 NumberofAttempts = 1
@@ -158,27 +149,32 @@ Else
 	NumberofAttempts += 1
 	Send ENScript.exe showNotes`n
 		Sleep 250
-	Send  `"%RONumber%`"`n
+	Send  {Raw}"%RONumber%"`n
 		Sleep 500
 WinClose AHK_class ConsoleWindowClass
 
 MsgBox, 4,,Is there a duplicate RO note that needs to be removed?
 	IfMsgBox No
 		Gosub MoveNotetoAccounting
-SplashTextOn,200,90, Waiting, Click on the note that needs to be removed.
-WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+
+TrayTip, Help, Click on the note that needs to be removed, 30, 1
+
+; SplashTextOn,200,90, Waiting, Click on the note that needs to be removed.
+; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 KeyWait, LButton, D
 	Sleep 500
-SplashTextOff
+; SplashTextOff
 Send {Delete}
 	Sleep 1000
 
 MoveNotetoAccounting:
-SplashTextOn,200,90, Waiting, Click on the note that needs to be moved to 03.Accounting.
-WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+TrayTip, Help, Click on the note that needs to be moved to 03.Accounting, 30, 1
+; SplashTextOn,200,90, Waiting, Click on the note that needs to be moved to 03.Accounting.
+; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 KeyWait, LButton, D
 	Sleep 500
-SplashTextOff
+; SplashTextOff
+TrayTip
 
 Click, 673,121 ;opens the notebook change field
 	Sleep 250
@@ -205,5 +201,4 @@ Send AppsKey
 Send m
 
 ExitApp
-
-Esc::ExitApp
+ScrollLock::ExitApp

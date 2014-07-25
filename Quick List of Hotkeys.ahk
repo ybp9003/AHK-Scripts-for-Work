@@ -80,4 +80,4 @@ Return
 
 GuiClose:
 ExitApp                           
-Esc::ExitApp
+Scrolllock::ExitApp

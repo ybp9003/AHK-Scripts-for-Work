@@ -19,4 +19,4 @@ Loop,Parse,Steps, |
 Click 632,455
 ExitApp
 
-Esc::ExitApp
+Scrolllock::exitapp

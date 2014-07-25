@@ -36,11 +36,11 @@ tags = %provisioning%|%dsl%|%accounting%|%hours%
 Loop,Parse,tags,`|
 	{
 	Send %A_LoopField%
-	Send {Tab 14}
+	Send {Tab 15}
 	}
 
 GuiClose:
 ExitApp
 
 
-Esc::ExitApp
+Scrolllock::ExitApp

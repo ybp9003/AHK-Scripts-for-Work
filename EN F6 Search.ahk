@@ -4,7 +4,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 ; SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 
-; SetTitleMatchMode 2
+SetTitleMatchMode 2
 Clipboard = 
 Send, ^c
 ClipWait, 2
@@ -42,18 +42,22 @@ WinWaitActive C:\Windows\system32\CMD.exe ;,,2
 
 ;===============================================================================
 ;ENABLE THIS SECTION IF YOU WANT TO SEARCH EN AND NISC AT THE SAME TIME
+; MouseGetPos, posX, posY
 	; Sleep 1000
 ; WinActivate AHK_class SunAwtFrame
 ; WinWaitActive AHK_class SunAwtFrame
-; Send {F11}
+; WinMove, AHK_class SunAwtFrame,, -1677, 567, 1465, 970
 	; Sleep 250
-; Send {Tab}
+; Click, 486, 89
+; Send ^a
 	; Sleep 250
-; Send ^v
-	; Sleep 250
+; Send % Clipboard
+	; Sleep 350
 ; Send {Enter}
-
+; WinActivate Google Chrome
+; MouseMove, %posX%, %posY%
+; WinActivate AHK_class ENMainFrame
 
 ExitApp
 
-Esc::ExitApp
+ScrollLock::ExitApp

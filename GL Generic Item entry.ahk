@@ -1,6 +1,6 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
-;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode 2 ;matches partial window titles
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -21,7 +21,6 @@ Gui, Add, Text, x22 y10 w110 h30 , Enter the desired GL into the boxes below
 Return
 
 ButtonSubmit:
-{
 Gui, Submit
 
 SplashTextOn, 100, 30, GL, %Division%`.%Department%.%GL%.%Sub%`n
@@ -31,40 +30,42 @@ If GL = 2124.1
 {
 	InputBox, tagPrefix,, What are the first four letters of the Asset Tag?
 	SplashTextOff
-	SplashTextOn, 100, 30, GL, %Division%`.%Department%.%GL%.%Sub%`nTo begin GL entry, place the mouse cursor over the GL Divison field and press the Right Control Key
+	SplashTextOn, 100, 30, GL, %Division%`.%Department%.%GL%.%Sub%`nTo begin GL entry, place the mouse cursor over the GL Division field and press the Right Control Key
 	WinMove, GL, , 5, 5 ;move splash window to the top left corner
 	Gosub AssetTagProcess
 }	
 
 Begin:
-{
 WinWaitActive GL Accounting
-}
+WinMove, GL Accounting,, -1575, 600, 1500, 850 ;RESIZES THE GL ACCOUNTING WINDOW TO A SPECIFIC SIZE EACH TIME
+	Sleep 250
+Click 46,110 ;GL DIV
+	Sleep 250
+Send %Division%
 	Sleep 250
 Send {Tab}
 	Sleep 250
-Send +{Tab}
-	Sleep 250
-SendEvent %Division%			;GL DIVISION
-	Sleep 150
-Send {Tab}
-	Sleep 250
-Send {F2}
+;Send {F2}
+;	Sleep 250
+;Send ^a
+;	Sleep 250
+Click 208,110
 	Sleep 250
 Send ^a
 	Sleep 250
-SendEvent %GL%.%Sub%			;GL Number.Sub Account
+Send %GL%.%Sub% ;GL Number.Sub Account
 	Sleep 250
 Send {Tab}
 	Sleep 250
-MouseClick,Left,330,113			;CLICK GL DEPARTMENT FIELD
+Click 330,113 ;GL DEPT
 	Sleep 500
-Send {F2}
-SendEvent %Department% 			;GL DEPTARTMENT
+; Send {F2}
+Send %Department% ;GL DEPTARTMENT
 	Sleep 250
 Send {Tab}
 	Sleep 250
-Send {F2}
+Click 573,113
+; Send {F2}
 	Sleep 250
 Send ^a
 	Sleep 250
@@ -72,13 +73,13 @@ Send MATERIALS
 	Sleep 250
 Send {Tab}
 	Sleep 250
-Send {Enter}
+; Send {Enter}
+Click 1365,830
 
 MsgBox, 4,,Input another GL?
 IfMsgBox Yes
-	{
 	Gosub Begin
-	}
+
 SplashTextOff
 ExitApp
 
@@ -177,7 +178,7 @@ IfMsgBox Yes
 	}
 SplashTextOff
 ExitApp
-}
 
 
-Esc::ExitApp
+
+Scrolllock::ExitApp

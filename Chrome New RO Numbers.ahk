@@ -3,12 +3,13 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
+SetTitleMatchMode 2
 StringRight, A_YY, A_YYYY, 2	; get the 2 digit year
 InputBox, loopnumber,Number of Loops, How many entries do you need?
 InputBox, var1,Where to begin, What is the last three digits of the largest RO number listed?`n`nxx-"xxx"
 
-WinActivate HCTC RO Log - Google Chrome
-WinWaitActive HCTC RO Log - Google Chrome
+WinActivate HCTC RO Log
+WinWaitActive HCTC RO Log
 Loop %loopnumber%
 {
 var1 := var1 + 1
@@ -25,4 +26,4 @@ sleep 1000
 }
 ExitApp
 
-Esc::ExitApp
+ScrollLock::ExitApp

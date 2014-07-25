@@ -14,9 +14,9 @@ IfWinActive AHK_class ENMainFrame
 	Send ^+v
 	ExitApp
 	}
-
-Send {Raw}%Contents%
+Send ^v
+; Send {Raw}%Contents%
 ExitApp
 
-Esc::ExitApp
+ScrollLock::ExitApp
  

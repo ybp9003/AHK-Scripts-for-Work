@@ -19,4 +19,4 @@ WinActivate AHK_class SunAwtDialog
 		Send {Enter}
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp

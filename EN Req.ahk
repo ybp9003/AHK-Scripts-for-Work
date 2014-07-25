@@ -14,7 +14,7 @@ Gui, Add, CheckBox, x232 y30 w100 h30 vWorkOrder , Work Order
 Gui, Add, CheckBox, x232 y60 w100 h30 vBudgetItem , Budget Item
 Gui, Add, CheckBox, x232 y90 w100 h30 vCreditCard, Credit Card
 Gui, Add, CheckBox, x232 y120 w100 h30 vOnlinePurchase, Online Purchase
-Gui, Add, Button, x260 y270 w100 h30 gSubmit, Submit
+Gui, Add, Button, x260 y270 w100 h30 Default gSubmit, Submit
 Gui, Add, Text, x22 y10 w160 h20 , Process a Requisition in Evernote
 Gui, Add, Text, x22 y100 , Number?
 
@@ -94,7 +94,10 @@ If Dept = CS
 If Dept = HR
 	Dept = HumanResources
 	
-Dept = %Dept%Dept
+If Dept = BO
+	Dept = BusinessOffice
+
+	Dept = %Dept%Dept
 
 ;===========================================================================================================
 OpenTaggingWindow:
@@ -119,4 +122,4 @@ Loop,Parse,Tags, |
 GuiClose:
 ExitApp
 
-Esc::ExitApp
+Scrolllock::ExitApp
