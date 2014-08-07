@@ -1,8 +1,8 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-; SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+; SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 
 SetTitleMatchMode 2
 Clipboard = 
@@ -14,13 +14,17 @@ if ErrorLevel
     ExitApp
 	}
 
-NumberofAttempts = 1
+; NumberofAttempts = 1
 ; Repeat:
 IfWinExist C:\Windows\system32\CMD.exe
-	WinActivate C:\Windows\system32\CMD.exe
+	WinRestore C:\Windows\system32\CMD.exe
 Else
-	Run, CMD.exe, , Min
-WinWaitActive C:\Windows\system32\CMD.exe ;,,2
+	{
+	Run, CMD.exe, C:\Program Files (x86)\Evernote\Evernote\
+		Sleep 250
+	WinMove, C:\Windows\system32\CMD.exe, , 317, 1535
+	}
+; WinWaitActive C:\Windows\system32\CMD.exe ;,,2
 ; If ErrorLevel
 	; {
 	; If NumberofAttempts = 4
@@ -32,12 +36,12 @@ WinWaitActive C:\Windows\system32\CMD.exe ;,,2
 	; Gosub Repeat
 	; }
 ; Else
-	Send ENScript showNotes`n
-		Sleep 750
-	Send {Raw}`"%Clipboard%`"`n
-		; Sleep 750
-	; WinClose AHK_class ConsoleWindowClass
-	WinMinimize C:\Windows\system32\CMD.exe
+Send ENScript showNotes`n
+	Sleep 750
+Send {Raw}`"%Clipboard%`"`n
+	; Sleep 750
+; WinClose AHK_class ConsoleWindowClass
+WinMinimize C:\Windows\system32\CMD.exe
 	
 
 ;===============================================================================
@@ -59,5 +63,4 @@ WinWaitActive C:\Windows\system32\CMD.exe ;,,2
 ; WinActivate AHK_class ENMainFrame
 
 ExitApp
-
 ScrollLock::ExitApp

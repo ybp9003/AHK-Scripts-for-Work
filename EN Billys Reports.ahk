@@ -298,9 +298,8 @@ VRO2: ;this is the "Document" tag
 MsgBox It went to VEHICLE RO 2`nMonthTag equals %MonthTag%`nDate equals %DATE%
 
 WinActivate AHK_class ENMainFrame
-	{
 	WinWaitActive AHK_class ENMainFrame
-	}
+
 Click 1100,800
 Send {F2}
 	Sleep 1000
@@ -360,21 +359,21 @@ Exit
 FUEL2: ;this is the "Document" tag
 MsgBox It went to FUEL2
 MsgBox MonthTag equals %MonthTag%
-Gui, 2:Add, Text, x12 y10 w120 h30 , Enter the month this report corresponds with
-Gui, 2:Add, Text, x12 y50 w120 h30 , Enter the year this report corresponds with
-Gui, 2:Add, Edit, x142 y10 w120 h20 vMonth , %A_MMMM%
-Gui, 2:Add, Edit, x142 y40 w120 h20 vYear , %A_YYYY%
-Gui, 2:Add, Button, x152 y70 w90 h30 gFuelSubmitButton , Submit
+; Gui, 2:Add, Text, x12 y10 w120 h30 , Enter the month this report corresponds with
+; Gui, 2:Add, Text, x12 y50 w120 h30 , Enter the year this report corresponds with
+; Gui, 2:Add, Edit, x142 y10 w120 h20 vMonth , %A_MMMM%
+; Gui, 2:Add, Edit, x142 y40 w120 h20 vYear , %A_YYYY%
+; Gui, 2:Add, Button, x152 y70 w90 h30 gFuelSubmitButton , Submit
 ; Generated using SmartGUI Creator 4.0
-Gui, 2:Show, x75 y770 , Fuel Report
-Return
+; Gui, 2:Show, x75 y770 , Fuel Report
+; Return
 
 FuelSubmitButton:
-Gui, 2:Submit, Hide
+; Gui, 2:Submit, Hide
 
 
 WinActivate AHK_class ENMainFrame
-WinWaitActive AHK_class ENMainFrame
+	WinWaitActive AHK_class ENMainFrame
 
 Click 1100,800
 Send {F2}

@@ -72,13 +72,20 @@ Send ^a
 Send MATERIALS
 	Sleep 250
 Send {Tab}
-	Sleep 250
-; Send {Enter}
+	Sleep 400
+	
 Click 1365,830
-
+WinWaitClose GL Accounting
+MouseMove, posX, posY
 MsgBox, 4,,Input another GL?
 IfMsgBox Yes
+	{
+	KeyWait, LButton, D
+		Sleep 250
+	MouseGetPos, posX, posY
+	Send !u
 	Gosub Begin
+	}
 
 SplashTextOff
 ExitApp

@@ -45,13 +45,9 @@ WinWaitActive Assign Tags,,2
 		}
 Send task{Space}
 
-MsgBox, 4,, Process another receipt?
-IfMsgBox Yes
-	{
-	Gui, Show
-	WinActivate Assign Tags
-	Return
-	}
+WinWaitClose Assign Tags
+Gui, Show
+Exit
 
 GuiClose: 
 ExitApp

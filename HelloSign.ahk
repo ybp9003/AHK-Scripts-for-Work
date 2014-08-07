@@ -134,9 +134,6 @@ MouseMove 380,1000 ;moves mouse to the "Request Signature" button
 
 FileRecycle, %A_Desktop%\%A_YYYY%%Last3%.pdf ;sends the PO to the recycle bin
 
-MsgBoxTest:
-MsgBox The hot key worked!
-
 GuiClose:
 ExitApp
 

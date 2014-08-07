@@ -29,6 +29,7 @@ ButtonSubmit:
 Gui, Submit
 
 WinActivate Messages
+WinWaitActive Messages
 Send INITIATOR: %Dept%/%Requestor%`n
 Send {Raw}REQ #%Req%`n ;needs to have {Raw} because of the # sign
 Send {Raw}%GL%`n

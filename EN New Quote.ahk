@@ -18,7 +18,7 @@ IfWinExist PDF-XChange Editor
 	IfMsgBox Yes
 		WinClose PDF-XChange Editor
 
-Run C:\Users\jherring\Desktop\Evernote Templates\Quote Template.enex
+FileCopy %A_Desktop%\Evernote Templates\Quote Template.enex, %A_Desktop%\EN Joe\
 ExitApp
 
 Scrolllock::ExitApp

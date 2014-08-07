@@ -4,12 +4,44 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 ; SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 
+
+
 ;NEED TO REPLACE INPUTBOXES WTHT A Gui
-InputBox, RONumber,, RO Number being processed:
-InputBox, Approver,, Approver's name:`n`nSpaces will be automatically removed
-InputBox, Dept,, Approver's department:`n`nShould match the tag that will be applied
+Gui, Add, Text, cBlue , RO Number
+Gui, Add, Text, cBlue , Approvers Department
+Gui, Add, Text, cBlue , Approvers Name
+Gui, Add, Edit, Number ym vYear , 14
+Gui, Add, Edit, Number ym vROLastThree , xxx
+Gui, Add, ComboBox, vDept , ACCT|ADMIN|BD|COE|CS|HR|IFIX|IP|OSP|OSS|PLT|PMM|SECA
+Gui, Add, ComboBox, vApprover , ALAN LINK|APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL|DAVID MOLDENHAUER|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN|PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
+Gui, Add, Button, Default gActivate , Ok
+Gui, Show
+Return
+
+Activate:
+Gui, Submit
 
 StringReplace, Approver, Approver, % " ", , All ;remove spaces
+
+If Dept = ACCT
+	Dept = Accounting
+
+If Approver = RandyHall
+	Approver = R2
+	
+If Dept = BD
+	Dept = BusinessDevelopment
+
+If Dept = CS
+	Dept = CustomerService
+
+If Dept = HR
+	Dept = HumanResources
+	
+If Dept = BO
+	Dept = BusinessOffice
+
+	Dept = %Dept%Dept
 
 
 ; MsgBox, ACTIVATING OUTLOOK
@@ -20,7 +52,10 @@ WinActivate ahk_class rctrl_renwnd32
 If ErrorLevel
 	{
 	If NumberofAttempts = 4
+		{
 		MsgBox, Four attempts to activate "Inbox - Microsoft Outlook" have failed.`n`nThe script will now exit.
+		ExitApp
+		}
 	Else
 		NumberofAttempts += 1
 		Gosub ActivateOutlook1
@@ -34,54 +69,54 @@ WinWaitActive Print,,2
 If ErrorLevel
 	{
 	If NumberofAttempts = 4
-		MsgBox, Four attempts to activate "Print Dialog" have failed.`n`nThe script will now exit.
+		{
+		MsgBox, Four attempts to activate "Print dialog" have failed.`n`nThe script will now exit.
+		ExitApp
+		}
 	Else
 		NumberofAttempts += 1
 		WinActivate Print
 		Gosub PrintDialog
 	}
 Else
-TrayTip, Help, Select the proper printer then press the RCONTROL key to continue, 30, 1
-
-	; SplashTextOn,200,90, Waiting, Select the proper printer.`nPress the RControl key to continue.
-	; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
-	KeyWait, RControl, D
+TrayTip, Script TIP, Select the proper printer then press the RCONTROL key to continue, 30, 1
+KeyWait, RControl, D
 		Sleep 250
-	; SplashTextOff
 TrayTip
-		sleep 5000
-	Send {Enter}
+SetControlDelay -1
+ControlClick, Button15, Print ;EXPERIMENTAL
+; Send {Enter}
 
 ; MsgBox, SAVE AS DIALOG SHOULD NOW APPEAR, SHOULD SAVE EMAIL AS PDF TO DESKTOP
 NumberofAttempts = 1
 SaveAsDialog:
-WinWaitActive Save As,,2
+WinWaitActive Save PDF File As,,2
 If ErrorLevel
 	{
 	If NumberofAttempts = 4
-		MsgBox, Four attempts to activate "Save As Dialog" have failed.`n`nThe script will now exit.
+		{
+		MsgBox, Four attempts to activate "Save As dialog" have failed.`n`nThe script will now exit.
+		ExitApp
+		}
 	Else
 		NumberofAttempts += 1
-		WinActivate Save As
+		WinActivate Save PDF File As
 		Gosub SaveAsDialog
 	}
 Else
-	Send %A_Desktop%\EN Joe\%RONumber% Aproved{Enter}
+	Send %A_Desktop%\EN Joe\%Year%-%ROLastThree% Aproved{Enter}
 
-TrayTip, Help, New note created in Joe's Busienss Notebook`nSelect it`nthen press the RCONTROL key to continue, 30, 1
-; SplashTextOn,300,90, Waiting, New note created in Joe's Busienss Notebook.`nSelect it, then press the RControl key to continue.
-; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+TrayTip, Script TIP, New note created in Joe's Busienss Notebook`nSelect it`nthen press the RCONTROL key to continue, 30, 1
+WinActivate AHK_class ENMainFrame
 KeyWait, RControl, D
 	Sleep 250
-; SplashTextOff
 TrayTip
-	Sleep 5000
 
 ; MsgBox, RENAMING NOTE
 Click, 750,350
 Send {F2 2}
 	Sleep 500
-Send %RONumber% Approved`n
+Send %Year%-%ROLastThree% Approved`n
 	Sleep 1000
 
 ; MsgBox, TAGGING THE NOTE
@@ -89,19 +124,19 @@ NumberofAttempts = 1
 StartTagging:
 Send ^!t
 WinWaitActive Assign Tags,,2
-	If ErrorLevel
-		{
-		If NumberofAttempts = 4
-			MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
-		Else
+If ErrorLevel
+	{
+	If NumberofAttempts = 4
+		MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
+	Else
 		NumberofAttempts += 1
 		Gosub StartTagging
-		}
-	Else
-		Sleep 250
+	}
+Else
+	Sleep 250
 
 ; MsgBox, TAGS SHOULD BE:`n%A_YYYY%, %Approver%, %Dept%
-NoteTags = %A_YYYY%|%Approver%|%Dept%
+NoteTags = %A_YYYY%|%Approver%|%Dept%|RONumber
 Loop, Parse, NoteTags, |
 	{
 	Send %A_LoopField%{Space}
@@ -109,26 +144,6 @@ Loop, Parse, NoteTags, |
 	}
 Send {Enter}
 	Sleep 1000
-
-; MsgBox, ATTACHING PDF TO NOTE (ALT+F F)
-; NumberofAttempts = 1
-; AttachFiletoNote:
-	; Send !f
-		; Sleep 250
-	; Send f
-; WinWaitActive Open,,2
-; If ErrorLevel
-	; {
-	; If NumberofAttempts = 4
-		; MsgBox, Four attempts to activate "Save As Dialog" have failed.`n`nThe script will now exit.
-	; Else
-		; NumberofAttempts += 1
-		; WinActivate AHK_class ENMainFrame
-		; Gosub AttachFiletoNote
-	; }
-; Else
-; Send %A_Desktop%\%RONumber%.pdf{Enter}
-	; Sleep 1000
 
 ; MsgBox, F6 SEARCH FOR %RONumber%
 NumberofAttempts = 1
@@ -149,7 +164,7 @@ Else
 	NumberofAttempts += 1
 	Send ENScript.exe showNotes`n
 		Sleep 250
-	Send  {Raw}"%RONumber%"`n
+	Send  {Raw}"%Year%-%ROLastThree%"`n
 		Sleep 500
 WinClose AHK_class ConsoleWindowClass
 
@@ -158,22 +173,16 @@ MsgBox, 4,,Is there a duplicate RO note that needs to be removed?
 		Gosub MoveNotetoAccounting
 
 TrayTip, Help, Click on the note that needs to be removed, 30, 1
-
-; SplashTextOn,200,90, Waiting, Click on the note that needs to be removed.
-; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 KeyWait, LButton, D
 	Sleep 500
-; SplashTextOff
 Send {Delete}
 	Sleep 1000
+TrayTip
 
 MoveNotetoAccounting:
 TrayTip, Help, Click on the note that needs to be moved to 03.Accounting, 30, 1
-; SplashTextOn,200,90, Waiting, Click on the note that needs to be moved to 03.Accounting.
-; WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 KeyWait, LButton, D
 	Sleep 500
-; SplashTextOff
 TrayTip
 
 Click, 673,121 ;opens the notebook change field
@@ -181,24 +190,10 @@ Click, 673,121 ;opens the notebook change field
 Send 03
 	Sleep 250
 Send {Enter}
-	Sleep 500
-FileRecycle %A_Desktop%\%RONumber%.pdf
+Gui, Show
+Exit
 
-NumberofAttempts = 1
-ActivateOutlook2:
-WinActivate ahk_class rctrl_renwnd32
-	WinWaitActive ahk_class rctrl_renwnd32,,2
-If ErrorLevel
-	{
-	If NumberofAttempts = 4
-		MsgBox, Four attempts to activate "Inbox - Microsoft Outlook" have failed.`n`nThe script will now exit.
-	Else
-		NumberofAttempts += 1
-		Gosub ActivateOutlook2
-	}
-Else
-Send AppsKey
-Send m
 
+GuiClose:
 ExitApp
 ScrollLock::ExitApp

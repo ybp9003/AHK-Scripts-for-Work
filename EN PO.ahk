@@ -3,7 +3,7 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-Gui, Add, ComboBox, x22 y30 w140 h20 vDept , ACCT||ADMIN|BD|COE|CS|HR|IFIX||IP|OSP|OSS|PLT|PMM|SECA
+Gui, Add, ComboBox, x22 y30 w140 h20 vDept , ACCT||ADMIN|BD|COE|BO|HR|IFIX||IP|OSP|OSS|PLT|PMM|SECA
 Gui, Add, ComboBox, x22 y60 w140 vInitiator1 , ALAN LINK||APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL||DAVID MOLDENHAUER|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN|PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
 Gui, Add, Edit, x92 y100 w60 h20 vpoYear , %A_YYYY%
 Gui, Add, Edit, x152 y100 w50 h20 vpoLastThree , 
@@ -100,7 +100,7 @@ TagExceptions:
 If Initiator = RANDYHALL
 	Initiator = R2
 
-If Dept = CS
+If Dept = BO
 	Dept = CustomerService
 	
 If Dept = ACCT
@@ -136,18 +136,27 @@ Loop,Parse,Tags, |
 	SendEvent %A_LoopField%
 	Sleep 1200
 	}
-;===========================================================================================================
-If POActive = 1
-	Notebook = 04.POs
-	Gosub MoveNotebook
-If Warehouse = 1
-	Notebook := ".WarehouseTasks"
-;===========================================================================================================
-MoveNotebook:
 WinWaitActive AHK_class ENMainFrame
-Click 670,124
-	Sleep 1000
-Send %Notebook%{Tab}
+; If POActive = 1
+	; Notebook = 04.POs
+	; Gosub MoveNotebook
+; If Warehouse = 1
+	; Notebook := ".WarehouseTasks"
+;===========================================================================================================
+IfWinExist C:\Windows\system32\CMD.exe
+	WinRestore C:\Windows\system32\CMD.exe
+Else
+	{
+	Run, CMD.exe, C:\Program Files (x86)\Evernote\Evernote\
+		Sleep 250
+	WinMove, C:\Windows\system32\CMD.exe, , 317, 1535
+	}
+Send ENScript showNotes`n
+	Sleep 750
+Send %poYear%%poLastThree%`n
+WinMinimize C:\Windows\system32\CMD.exe
+;===========================================================================================================
+
 Gui, Show
 Exit
 

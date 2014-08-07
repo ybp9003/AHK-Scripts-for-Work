@@ -117,7 +117,10 @@ Loop,Parse,Tags, |
 	Send %A_LoopField%
 	Sleep 1200
 	}
+WinWaitActive AHK_class ENMainFrame
 ;===========================================================================================================
+Gui, Show
+Exit
 
 GuiClose:
 ExitApp
