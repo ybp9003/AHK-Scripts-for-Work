@@ -1,8 +1,14 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
+MsgBox, Control commands are being used to enter data into the date field. Watch to see how this works...
 Gui, Add, ComboBox, x22 y30 w140 h20 vDept , ACCT|ADMIN|BD|COE|CS|HR|IFIX||IP|OSP|OSS|PLT|PMM|SECA
 Gui, Add, ComboBox, x22 y60 w140 vInitiator1 , ALAN LINK|APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL||DAVID MOLDENHAUER|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN|PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
 Gui, Add, Edit, x68 y95 w60 h20 vReqYear , %A_YYYY%x
@@ -42,9 +48,14 @@ Send {Raw}%ReqYear%-Req %ReqNumber% [%ReqDescription%]
 	Sleep 250
 
 NoteCreationDate:
-Click 758,156 ;clicks on the "Created Date" field
-	Sleep 250
+ControlClick, X648 Y158, AHK_class ENMainFrame
+		Sleep 1000
+ControlGetFocus, ENDateField, AHK_class ENMainFrame
 Send %Date%`n
+	Sleep 1500
+; Click 758,156 ;clicks on the "Created Date" field
+	; Sleep 250
+; Send %Date%`n
 	Sleep 1500
 ;===========================================================================================================
 If WorkOrder = 0

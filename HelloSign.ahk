@@ -1,5 +1,10 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-#Warn  ; Enable warnings to assist with detecting common errors.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode 2
@@ -125,7 +130,7 @@ WinActivate Google Chrome
 SplashTextOn,200,120, Waiting, Click to add the Signature box to continue.
 WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
 KeyWait, LButton, D
-	Sleep 250
+	Sleep 500
 SplashTextOff
 
 finish:

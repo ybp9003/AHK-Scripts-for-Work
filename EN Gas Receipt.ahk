@@ -1,5 +1,10 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+;ControlFocus and ControlClick are not working on the Note Title
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
@@ -18,24 +23,36 @@ Gui, Submit
 ;add purchase information to the note
 WinActivate AHK_class ENMainFrame
 WinWaitActive AHK_class ENMainFrame
-Send ^+c
+TrayTip,Progress Update,Evernote is active
+ControlFocus, WebViewHost1,AHK_class ENMainFrame
+ControlGetFocus,ENWebEdit,AHK_class ENMainFrame
+	TrayTip,Progress Update,%ENWebEdit% has Focus
+	Sleep 5000
+SendEvent {CtrlDown}{ShiftDown}c{CtrlUp}{shiftup}
 	Sleep 1000
 Send Line%A_Space%
+	Sleep 250
 
 ;Update the note title and change note "created date" to match purchase date on the receipt
-Click,850,238
+ControlClick,x745 y241,ahk_class ENMainFrame
+ControlGetFocus,ENNoteTitle,AHK_class ENMainFrame
+	TrayTip,Progress Update,%ENNoteTitle% has Focus
+		Sleep 5000
+SendEvent {End 2}
 	Sleep 250
-Send {F2}
-	Sleep 750
-Send {End 2}
-	Sleep 150
-Send %A_Space%$%Cst% %Dt%/%A_YYYY% %Hr%:%Mn%
-Click,774,159
-	Sleep 1000
+SetKeyDelay,15
+SendEvent %A_Space%$%Cst%%A_Space%%Dt%/%A_YYYY%%A_Space%%Hr%:%Mn%
+	Sleep 250
+ControlClick, X648 Y158, AHK_class ENMainFrame
+	TrayTip,Progress Update,Sending a ControlClick to the Date field
+		Sleep 1000
+ControlGetFocus, ENDateField, AHK_class ENMainFrame
+	TrayTip,Progress Update,%ENDateField% has Focus
 Send %Dt%`n
 	Sleep 1500
 
 ;remove the tag "Task"
+	TrayTip,Progress Update,Opening the Assign Tags Window
 Send ^!t ;begin tagging the note
 WinWaitActive Assign Tags,,2
 	If ErrorLevel
@@ -43,8 +60,15 @@ WinWaitActive Assign Tags,,2
 		WinActivate ENMainFrame
 		Send ^!t
 		}
-Send task{Space}
-
+	Sleep 250
+Send task%A_Space%
+	Sleep 250
+TrayTip,Progress Update,Sending a ControlClick to the "HIDE UNASSIGNED TAGS" box
+ControlClick, Button3, Assign Tags ;CLICKS THE "HIDE UNASSIGNED TAGS" BOX
+TrayTip,Progress Update,The "Hide Unassigened Tags" box should be unchecked in five Seconds
+	Sleep 5000
+ControlClick, Button3, Assign Tags ;CLICKS THE "HIDE UNASSIGNED TAGS" BOX
+TrayTip,Progress Update,The "HIDE UNASSIGNED TAGS" box should have been unchecked.
 WinWaitClose Assign Tags
 Gui, Show
 Exit

@@ -1,11 +1,7 @@
-; version 1.01 moved EscApp to the top of the script
-; version 1.01 moved EscApp to the top of the script
-; version 1.02 1.01 seemed to have broken the global variables CurrentYear and CurrentMonth so I have moved it back to the Bottom
-; version 1.03 Experimenting with the idea of having all of the keyboard commands at the top of the script for easy reference and then using a GoSub command to actually execute the desired script. First test is the COEReq command
-; version 1.04 The COEReq command worked flawlessly. I am going to begin migrating all of the script commands to the top of this script.(to make it easy to visually find them) Month and Year are now properly being entered in the Gas command again.
-;version 1.05 Under ",gas" If the correct name had not been copied to the clipboard, I added an Inputbox to collect that informatoin into a variable that was then transferred to the clipboard.
-;version 1.06 capturing requisition title for requisitions. Starting with COE Reqs first for testing purposes
-;version 1.1 moved most commands to their individual script fills and call them based on the original keyboard command from this script
+;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.

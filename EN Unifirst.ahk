@@ -1,4 +1,7 @@
-﻿;version 1.05 Added a GUI to collect the needed info. Make sure it continues to work after the first invoice is processed
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
@@ -7,11 +10,13 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
 ;PROCESS UNIFIRST INVOICES IN EVERNOTE
-
-Gui, Add, Edit, x12 y10 w130 h20 vInvNO, Invoice #
-Gui, Add, Edit, x12 y40 w130 h20 vMoDy, Date (MM/DD)
-Gui, Add, Edit, x12 y70 w130 h20 vCustNO, Customer #
-Gui, Add, Button, x22 y110 w100 h30 gSubmit , Submit to Evernote
+Gui, Add, Text, , Invoice #
+Gui, Add, Text, , Date (MM/DD)
+Gui, add, Text, , Customer #
+Gui, Add, Edit, ym w130 h20 vInvNO, Invoice #
+Gui, Add, Edit, w130 h20 vMoDy, Date (MM/DD)
+Gui, Add, Edit, w130 h20 vCustNO, Customer #
+Gui, Add, Button, w100 h30 Default gSubmit , Submit to Evernote
 ; Generated using SmartGUI Creator 4.0
 Gui, Show, x300 y450 , Invoice data
 Return
@@ -81,5 +86,6 @@ IfMsgBox Yes
 	Gui,Show
 	Return
 	}
+GuiClose:
 ExitApp
 Scrolllock::ExitApp

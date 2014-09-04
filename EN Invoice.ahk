@@ -1,5 +1,10 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Warn  ; Enable warnings to assist with detecting common errors.
 ;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
@@ -7,9 +12,9 @@ Gui, Add, Text, x12 y10 , MM/DD of the invoice
 Gui, Add, Text, x12 y30 , PO Number
 Gui, Add, Edit, x142 y10 w100 h20 vdate , mm/dd
 Gui, Add, Edit, x242 y30 w70 h20 vPOLastthree, xxx
-Gui, Add, Button, x102 y70 w100 h30 Default gButtonOK , OK
 Gui, Add, Edit, x242 y10 w70 h20 vInvYear , %A_YYYY%
 Gui, Add, Edit, x142 y30 w100 h20 vPOYear , %A_YYYY%
+Gui, Add, Button, x102 y70 w100 h30 Default gButtonOK , OK
 ; Generated using SmartGUI Creator 4.0
 Gui, Show, x127 y87 , Invoice Processing
 Return

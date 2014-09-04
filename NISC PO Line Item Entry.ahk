@@ -1,5 +1,10 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
@@ -9,11 +14,11 @@ Gui, Add, Text,, Description
 Gui, Add, Text,, Part Number
 Gui, Add, Text,, Vendor Name
 Gui, Add, Text,, Long Description
-Gui, Add, Text,, Quantity
+Gui, Add, Text, x10 y155 , Quantity
 Gui, Add, Text,, Cost
-Gui, Add, Edit, ym Limit40 vdesc,
-Gui, Add, Edit, vpartnumber,
-Gui, Add, Edit, vvendor,
+Gui, Add, Edit, ym w290 Limit40 vdesc, 
+Gui, Add, Edit, w200 vpartnumber,
+Gui, Add, Edit, w200 vvendor,
 Gui, Add, Edit, w240 h60 Limit120 vldesc,
 Gui, Add, Edit, vqty,
 Gui, Add, Edit, vcost,
@@ -29,7 +34,7 @@ Gui, Add, Edit, w70 h20 vGL,
 Gui, Add, Edit, w30 h20 vSub,
 Gui, Add, Button, Default , OK
 
-Gui, Show, x-513 y494, Generic Line Item Entry
+Gui, Show, x-562 y494, Generic Line Item Entry
 Return
 
 ButtonOK:
@@ -39,15 +44,15 @@ StringUpper, partnumber, partnumber
 StringUpper, vendor, vendor
 StringUpper, ldesc, ldesc
 
-WinActivate ahk_class SunAwtFrame
-WinWaitActive ahk_class SunAwtFrame
+WinActivate 46575app 46575 - Hill Country Telephone ABS
+WinWaitActive 46575app 46575 - Hill Country Telephone ABS
 
-ItemData = 0|{Tab}|%desc%|{Tab}|P/N %partnumber%,{Space}|%vendor%,{Space}|%ldesc%|{Tab}|%qty%|{Tab}|{Tab}|%cost%|{Tab}
+ItemData = 0|%A_Tab%|%desc%|%A_Tab%|P/N %partnumber%,%A_Space%|%vendor%,%A_Space%|%ldesc%|%A_Tab%|%qty%|%A_Tab%|%A_Tab%|%cost%|%A_Tab%
 Loop, Parse, ItemData, |
 	{
-	Send %A_LoopField%
+	SendRaw %A_LoopField%
 		Sleep 200
-	If WinExist Warning
+	IfWinExist Warning
 		Send {Enter}
 	}
 Send !s
@@ -97,10 +102,8 @@ Send {Tab}
 	Sleep 250
 Click 573,113
 	Sleep 250
-; Send ^a
-	Sleep 250
 Send {F5}
-Send MATERIALS
+Send {Raw}%qty%%A_Space%%desc%
 	Sleep 250
 Send {Tab}
 WinWaitClose GL Accounting
@@ -113,3 +116,11 @@ GuiClose:
 ExitApp
 
 Scrolllock::ExitApp
+
+
+
+
+
+
+
+

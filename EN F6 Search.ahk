@@ -1,10 +1,16 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 
 SetTitleMatchMode 2
+	Sleep 250
 Clipboard = 
 Send, ^c
 ClipWait, 2
@@ -46,14 +52,14 @@ WinMinimize C:\Windows\system32\CMD.exe
 
 ;===============================================================================
 ;ENABLE THIS SECTION IF YOU WANT TO SEARCH EN AND NISC AT THE SAME TIME
+
 ; MouseGetPos, posX, posY
 	; Sleep 1000
-; WinActivate AHK_class SunAwtFrame
-; WinWaitActive AHK_class SunAwtFrame
+; WinActivate 46575app 46575 - Hill Country Telephone ABS 
+; WinWaitActive 46575app 46575 - Hill Country Telephone ABS
 ; WinMove, AHK_class SunAwtFrame,, -1677, 567, 1465, 970
 	; Sleep 250
-; Click, 486, 89
-; Send ^a
+; Click,486,89,2
 	; Sleep 250
 ; Send % Clipboard
 	; Sleep 350

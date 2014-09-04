@@ -1,19 +1,26 @@
-﻿;Version 1.10 Having trouble at the end when it asks me if I have another receipt to enter. The GUI appears, then disappears without a trace. (Possible fix) Added curlies for the final message box since there is now more than one command to execute before going back to the beginning
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+;
+;=========================================================================================
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-;SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+#Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
 ; Generated using SmartGUI Creator 4.0
-Gui, Add, Edit, x12 y60 w100 h20 vspent, $$Spent
-Gui, Add, Edit, x12 y90 w160 h20 vCpny, Company Name
-Gui, Add, Edit, x12 y120 w100 h20 vDate, Purchase Day (##)
-;Gui, Add, Checkbox, 
-Gui, Add, Button, x12 y150 w70 h20 gSubmit , Submit
-Gui, Add, Text, x12 y10 w200 h40 , When submitted`, this script will apply the information entered into the current active note in the Evernote Main Window
-Gui, Show, x127 y87 h195 w235, New GUI Window
+;Gui, Add, Text, w200 h40 , When submitted`, this script will apply the information entered into the current active note in the Evernote Main Window
+Gui, Add, Text, , RO Number
+Gui, Add, Text, , Amount Spent
+Gui, Add, Text, , Company Name
+Gui, Add, Text, , Purchase Date
+Gui, Add, Edit, w50 ym vRONumber , N/A
+Gui, Add, Edit, h20 vspent,
+Gui, Add, Edit, w160 h20 vCpny,
+Gui, Add, Edit, h20 vDate,
+Gui, Add, Button, w70 h20 Default gSubmit , Submit
+Gui, Show, , New GUI Window
 Return
 
 Submit:
@@ -31,7 +38,7 @@ Send {F2}
 	Sleep 1000
 Send %Cpny%{Space}receipt{Space}$%spent%
 	Sleep 1000
-MouseClick, Left, 757, 155 ;click on date field
+Click,700,155 ;click on date field
 	Sleep 1500
 Send %Date%`n
 	Sleep 1700
@@ -57,9 +64,14 @@ Loop, Parse, Tags, |
 	Send %A_LoopField%
 		Sleep 1200
 	}
+If Not RONumber = N/A
+	{
+	Send %RONumer%%A_Space%
+	Sleep 1200
+	}
 Send %tagCpny% ;doesn't hit enter here just in case there is another tag to enter or create
 WinWaitActive AHK_class ENMainFrame
-Click, 673,126
+Click,673,126
 Send 03
 
 Gui, Show

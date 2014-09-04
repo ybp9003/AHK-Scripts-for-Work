@@ -1,22 +1,25 @@
-﻿;1.00 The GUI does not work if you want to process a second report
-;1.02 Added	"Gui, 1:Show" and a "Return" if MsgBox=Yes to see if that corrects the Error
-;1.03 Version 1.02 is untested yet I go and add a GUI under the fuel report subroutine. Let's see if it works!
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-MsgBox NOTE: BEFORE SELECTION AN OPTION!`nBe sure you have brought the note you are about to process to focus in Evernote.
+;MsgBox NOTE: BEFORE SELECTION AN OPTION!`nBe sure you have brought the note you are about to process to focus in Evernote.
 
 Gui, Add, Text, x22 y20 w200 h20 , Select the report needed to be processed.
 Gui, Add, Text, x52 y50 , Reporting Month
-Gui, Add, Combobox, x160 y47 h20 vMonthTag, 01January||02February|03March|04April|05May|06June|07July|08August|09September|10October|11November|12December
-Gui, Add, Button, x22 y80 w220 h20 gMVLV1 , Monthly Vehicle Log (Vehicles)
-Gui, Add, Button, x22 y110 w220 h20 gMVLE1 , Monthly Vehicle Log (Equipment)
-Gui, Add, Button, x22 y140 w220 h20 gETL1 , Equipment Time Logsheet
-Gui, Add, Button, x22 y170 w220 h20 gVRO1 , Vehicle RO Log
-Gui, Add, Button, x22 y200 w220 h20 gFUEL1 , Fuel Report
+Gui, Add, Combobox, x150 y47 h20 vMonthTag, 01January||02February|03March|04April|05May|06June|07July|08August|09September|10October|11November|12December
+Gui, Add, Text, x110 y80 , Year
+Gui, Add, Edit, x150 y80 vYear ,%A_YYYY%
+Gui, Add, Button, x22 y140 w220 h20 gMVLV1 , Monthly Vehicle Log (Vehicles)
+Gui, Add, Button, x22 y170 w220 h20 gMVLE1 , Monthly Vehicle Log (Equipment)
+Gui, Add, Button, x22 y200 w220 h20 gETL1 , Equipment Time Logsheet
+Gui, Add, Button, x22 y230 w220 h20 gVRO1 , Vehicle RO Log
+Gui, Add, Button, x22 y260 w220 h20 gFUEL1 , Fuel Report
 ; Generated using SmartGUI Creator 4.0
 Gui, Show, x75 y770 , Report Selector
 Return
@@ -110,9 +113,8 @@ MVLV2: ;this is the "Document" tag
 MsgBox It went to MONTHLY VEHICLE LOG VEHICLES 2`nMonthTag equals %MonthTag%`nDate equals %DATE%
 {
 WinActivate AHK_class ENMainFrame
-	{
 	WinWaitActive AHK_class ENMainFrame
-	}
+
 Click 1100,800
 Send {F2}
 	Sleep 1000
@@ -357,20 +359,7 @@ Exit
 
 ;==========================================================================================================================
 FUEL2: ;this is the "Document" tag
-MsgBox It went to FUEL2
-MsgBox MonthTag equals %MonthTag%
-; Gui, 2:Add, Text, x12 y10 w120 h30 , Enter the month this report corresponds with
-; Gui, 2:Add, Text, x12 y50 w120 h30 , Enter the year this report corresponds with
-; Gui, 2:Add, Edit, x142 y10 w120 h20 vMonth , %A_MMMM%
-; Gui, 2:Add, Edit, x142 y40 w120 h20 vYear , %A_YYYY%
-; Gui, 2:Add, Button, x152 y70 w90 h30 gFuelSubmitButton , Submit
-; Generated using SmartGUI Creator 4.0
-; Gui, 2:Show, x75 y770 , Fuel Report
-; Return
-
-FuelSubmitButton:
-; Gui, 2:Submit, Hide
-
+MsgBox It went to FUEL2`nMonthTag equals %MonthTag%
 
 WinActivate AHK_class ENMainFrame
 	WinWaitActive AHK_class ENMainFrame

@@ -1,3 +1,8 @@
+;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
 Gui, Add, Text, x5 cRed , Window Transparency
 Gui, Add, Text, ym, #Wheelup or Wheeldown
 Gui, Add, Text, , #o Resets Transparency

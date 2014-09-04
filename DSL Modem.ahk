@@ -1,22 +1,23 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
+﻿;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 ActivateTaskRemarks()
 	{
 	WinActivate Task Remarks
-		{
-		WinWaitActive Task Remarks
-		}
+	WinWaitActive Task Remarks
 	Return
 	}
 ActivateSunAwtFrame()
 	{
 	WinActivate AHK_class SunAwtFrame
-		{
-		WinWaitActive AHK_class SunAwtFrame
-		}
+	WinWaitActive AHK_class SunAwtFrame
 	Return
 	}
 
@@ -24,7 +25,7 @@ Gui, Add, Combobox, x12 y30 vTakenBy, Carolyn Peek||Crystal Franco|Lisa Ottmers|
 Gui, Add, Radio, x12 y120 w100 h20 +Checked vM505N, Wireless
 Gui, Add, Radio, x12 y150 vM405, Single Port
 Gui, Add, CheckBox, x12 y180 +Checked vUPS, Shipped via UPS
-Gui, Add, Button, x102 y200 w80 h30 +Center gOKButton, OK
+Gui, Add, Button, x102 y200 w80 h30 Default +Center gOKButton, OK
 Gui, Add, Edit, x12 y70 w190 h20 vTracking , %Clipboard%
 Gui, Add, Text, x5 y10 w210 h20 +Center, Select from list or enter name: (no spaces)
 ; Generated using SmartGUI Creator 4.0
