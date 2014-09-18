@@ -2,7 +2,7 @@
 ;IDEAS FOR IMPROVEMENT GO HERE:
 
 ;=========================================================================================
-
+#Include E:\AHK Scripts for Work\Functions\ENFunctions.ahk
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
@@ -30,12 +30,8 @@ Loop, %NumberofLoops%
 		Sleep 250
 	WinWaitActive AHK_class ENMainFrame
 	MouseGetPos, posX, posY
-	Click, 1150, 850
-		Sleep 750
-	Send {F2 2}
-		Sleep 250
-	Send %Year%%POLast3% - Quote %Quote%
-	Send {Enter}
+	NewNoteTitle = %Year%%POLast3%-Quote %Quote%
+	ENNoteRetitle(NewNoteTitle)
 	NumberofLoops -= 1
 	MouseMove, %posX%,%posY%
 	}

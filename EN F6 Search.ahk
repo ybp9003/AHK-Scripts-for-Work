@@ -10,7 +10,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
 
 SetTitleMatchMode 2
-	Sleep 250
+	Sleep 500
 Clipboard = 
 Send, ^c
 ClipWait, 2
@@ -23,32 +23,22 @@ if ErrorLevel
 ; NumberofAttempts = 1
 ; Repeat:
 IfWinExist C:\Windows\system32\CMD.exe
+	{
 	WinRestore C:\Windows\system32\CMD.exe
+	WinActivate C:\Windows\system32\CMD.exe
+	WinWaitActive C:\Windows\system32\CMD.exe
+	}
 Else
 	{
 	Run, CMD.exe, C:\Program Files (x86)\Evernote\Evernote\
 		Sleep 250
 	WinMove, C:\Windows\system32\CMD.exe, , 317, 1535
 	}
-; WinWaitActive C:\Windows\system32\CMD.exe ;,,2
-; If ErrorLevel
-	; {
-	; If NumberofAttempts = 4
-		; {
-		; MsgBox, Four attempts to open the "DOS Window" has failed. Press OK to exit app.
-		; ExitApp
-		; }
-	; NumberofAttempts += 1
-	; Gosub Repeat
-	; }
-; Else
 Send ENScript showNotes`n
 	Sleep 750
 Send {Raw}`"%Clipboard%`"`n
 	; Sleep 750
-; WinClose AHK_class ConsoleWindowClass
 WinMinimize C:\Windows\system32\CMD.exe
-	
 
 ;===============================================================================
 ;ENABLE THIS SECTION IF YOU WANT TO SEARCH EN AND NISC AT THE SAME TIME

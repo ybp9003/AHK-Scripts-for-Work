@@ -58,7 +58,7 @@ StringUpper, desc, desc
 
 SplashTextOn,300,100,GL,%Division%.%Department%.%GL%.%Sub%`n`n%qty%%A_Space%%desc%`n`nWaiting for the GL window to become active
 	WinMove,GL,,5,5
-Send ^u
+Send !u
 WinWaitActive GL Accounting
 WinMove, GL Accounting,, -1575, 600, 1500, 850 ;RESIZES THE GL ACCOUNTING WINDOW TO A SPECIFIC SIZE EACH TIME
 	Sleep 500

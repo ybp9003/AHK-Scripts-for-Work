@@ -1,14 +1,13 @@
 ﻿;=========================================================================================
 ;IDEAS FOR IMPROVEMENT GO HERE:
-
+;
 ;=========================================================================================
-
+#Include E:\AHK Scripts for Work\Functions\ENFunctions.ahk
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-MsgBox, Control commands are being used to enter data into the date field. Watch to see how this works...
 Gui, Add, ComboBox, x22 y30 w140 h20 vDept , ACCT|ADMIN|BD|COE|CS|HR|IFIX||IP|OSP|OSS|PLT|PMM|SECA
 Gui, Add, ComboBox, x22 y60 w140 vInitiator1 , ALAN LINK|APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL||DAVID MOLDENHAUER|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN|PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
 Gui, Add, Edit, x68 y95 w60 h20 vReqYear , %A_YYYY%x
@@ -32,31 +31,22 @@ Submit:
 Gui, Submit, NoHide
 ;===========================================================================================================
 StringReplace, Initiator, Initiator1, % " ", , All ;remove spaces
-FormatTime,Date,%Date%, M/d/yyyy ;changes the format of the date reported from "MonthCal" variable from 20080608 to 6/8/2008
+FormatTime,ModifiedDate,%Date%, M/d/yyyy ;changes the format of the date reported from "MonthCal" variable from 20080608 to 6/8/2008
 ;===========================================================================================================
 
 WinActivate AHK_class ENMainFrame
 	WinWaitActive AHK_class ENMainFrame
 	Sleep 250
-Click 712,238 ;without this click the script sometimes renames the Notebook instead of the Note
-	Sleep 500
-Send {F2 2}
-	Sleep 1000
-If ReqDescription = ;IF THIS VARIABLE IS BLANK, IT WILL NOT RETITLE THE NOTE
+;IF THE VARIABLE "ReqDescription" IS BLANK, IT SKIPS THE NOTE RENAMING FUNCTION
+If ReqDescription = 
 	Gosub NoteCreationDate
-Send {Raw}%ReqYear%-Req %ReqNumber% [%ReqDescription%]
-	Sleep 250
 
+NewNoteTitle = %ReqYear%-Req %ReqNumber% [%ReqDescription%]
+ENNoteRetitle(NewNoteTitle)
 NoteCreationDate:
-ControlClick, X648 Y158, AHK_class ENMainFrame
-		Sleep 1000
-ControlGetFocus, ENDateField, AHK_class ENMainFrame
-Send %Date%`n
+ENDateCreated(ModifiedDate)
 	Sleep 1500
-; Click 758,156 ;clicks on the "Created Date" field
-	; Sleep 250
-; Send %Date%`n
-	Sleep 1500
+
 ;===========================================================================================================
 If WorkOrder = 0
 	{
@@ -111,15 +101,9 @@ If Dept = BO
 	Dept = %Dept%Dept
 
 ;===========================================================================================================
-OpenTaggingWindow:
-Send ^!t ;begin tagging the note
-WinWaitActive Assign Tags,,2
-	If ErrorLevel
-		{
-		Gosub OpenTaggingWindow
-		}
-	Else
-		Sleep 500
+;ASSIGN TAGS TO NOTE
+ENAssignTags()
+;ENTagNote() NEED TO MAKE A FUNCTION FOR THIS
 Tags = %ReqYear%{Space}|Requisition{Space}|%Dept%{Space}|%Initiator%{Space}|%WorkOrder%{Space}|%BudgetItem%{Space}|%CreditCard%{Space}|%OnlinePurchase%{Space}|AutoHotKey
 Loop,Parse,Tags, |
 	{

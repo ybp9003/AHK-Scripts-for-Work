@@ -2,7 +2,7 @@
 ;IDEAS FOR IMPROVEMENT GO HERE:
 
 ;=========================================================================================
-
+#Include E:\AHK Scripts for Work\Functions\ENFunctions.ahk
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
@@ -68,7 +68,7 @@ If ErrorLevel
 Else
 NumberofAttempts = 1
 PrintDialog:
-; MsgBox, PRESSING CTRL P
+;PRESSING CTRL P
 Send ^p
 WinWaitActive Print,,2
 If ErrorLevel
@@ -92,7 +92,7 @@ SetControlDelay -1
 ControlClick, Button15, Print ;EXPERIMENTAL
 ; Send {Enter}
 
-; MsgBox, SAVE AS DIALOG SHOULD NOW APPEAR, SHOULD SAVE EMAIL AS PDF TO DESKTOP
+;SAVE AS DIALOG SHOULD NOW APPEAR, SHOULD SAVE EMAIL AS PDF TO DESKTOP
 NumberofAttempts = 1
 SaveAsDialog:
 WinWaitActive Save As,,2
@@ -112,45 +112,8 @@ Else
 	Send %A_Desktop%\EN Joe\%Year%-%ROLastThree% Aproved{Enter}
 
 TrayTip, Script TIP, New note created in Joe's Busienss Notebook`nSelect it`nthen press the RCONTROL key to continue, 30, 1
-WinActivate AHK_class ENMainFrame
-KeyWait, RControl, D
-	Sleep 250
-TrayTip
 
-; MsgBox, RENAMING NOTE
-Click, 750,350
-Send {F2 2}
-	Sleep 500
-Send %Year%-%ROLastThree% Approved`n
-	Sleep 1000
-
-; MsgBox, TAGGING THE NOTE
-NumberofAttempts = 1
-StartTagging:
-Send ^!t
-WinWaitActive Assign Tags,,2
-If ErrorLevel
-	{
-	If NumberofAttempts = 4
-		MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
-	Else
-		NumberofAttempts += 1
-		Gosub StartTagging
-	}
-Else
-	Sleep 250
-
-; MsgBox, TAGS SHOULD BE:`n%A_YYYY%, %Approver%, %Dept%
-NoteTags = %A_YYYY%|%Approver%|%Dept%|RONumber
-Loop, Parse, NoteTags, |
-	{
-	Send %A_LoopField%{Space}
-		Sleep 1200
-	}
-Send {Enter}
-	Sleep 1000
-
-; MsgBox, F6 SEARCH FOR %RONumber%
+;F6 SEARCH FOR %RONumber%
 NumberofAttempts = 1
 DosWindow:
 Run CMD.exe
@@ -171,6 +134,46 @@ Else
 		Sleep 250
 	Send  {Raw}"%Year%-%ROLastThree%"`n
 		Sleep 500
+
+		WinActivate AHK_class ENMainFrame
+KeyWait, RControl, D
+	Sleep 250
+TrayTip
+
+;RENAMING NOTE
+ENNoteRetitle(Year,"-",ROLastThree," Approved")
+; Click, 750,350
+; Send {F2 2}
+	; Sleep 500
+; Send %Year%-%ROLastThree% Approved`n
+	; Sleep 1000
+
+;TAGGING THE NOTE
+NumberofAttempts = 1
+StartTagging:
+Send ^!t
+WinWaitActive Assign Tags,,2
+If ErrorLevel
+	{
+	If NumberofAttempts = 4
+		MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
+	Else
+		NumberofAttempts += 1
+		Gosub StartTagging
+	}
+Else
+	Sleep 250
+
+;TAGS SHOULD BE:`n%A_YYYY%, %Approver%, %Dept%
+NoteTags = %A_YYYY%|%Approver%|%Dept%|RONumber
+Loop, Parse, NoteTags, |
+	{
+	Send %A_LoopField%{Space}
+		Sleep 1200
+	}
+Send {Enter}
+	Sleep 1000
+
 WinClose AHK_class ConsoleWindowClass
 
 MsgBox, 4,,Is there a duplicate RO note that needs to be removed?
