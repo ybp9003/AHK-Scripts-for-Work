@@ -15,9 +15,7 @@ WinActivate AHK_class ENMainFrame
 	WinWaitActive AHK_class ENMainFrame
 
 QuoteYear = %A_YYYY%
-Send ^!t
-	Sleep 250
-WinWaitActive Assign Tags
+ENAssignTags()
 Send %A_YYYY%%A_Space%
 	Sleep 1200
 Send quote%A_Space%

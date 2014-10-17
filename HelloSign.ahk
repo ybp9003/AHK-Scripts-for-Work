@@ -2,7 +2,8 @@
 ;IDEAS FOR IMPROVEMENT GO HERE:
 
 ;=========================================================================================
-
+#Include E:\AHK Scripts for Work\Functions\Retry if window did not open.ahk
+#Include E:\AHK Scripts for Work\Functions\SplashText.ahk
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
@@ -32,16 +33,8 @@ If Terms = 1
 		Sleep 50
 	SendEvent ^+i ;Opens the "Add Page" dialog
 		Sleep 50
-	WinWaitActive Insert Pages,,2
-		If ErrorLevel
-		{
-			If NumberofAttempts = 4
-				MsgBox, Four attempts to open the "Insert Pages" dialog have failed.`n`nOpen the window manually (CTRL SHIFT I) then press OK.
-		Else
-			NumberofAttempts += 1
-			Gosub TermsCond
-		}
-Else
+	a := "Insert Pages"
+	WinWaitOpen(a)
 	Send {Tab 2}{Enter}
 		Sleep 50
 	WinWaitActive Open Files
@@ -59,19 +52,8 @@ Send !f
 	Sleep 50
 Send a
 	Sleep 50
-WinWaitActive Save File As,,2
-	If ErrorLevel
-		{
-		If NumberofAttempts = 4
-			{
-			MsgBox, Four attempts to open the "Save As" dialog have failed.`n`nOpen the window manually (CTRL SHIFT S) then press OK.
-			WinActivate Save File As
-			}
-		Else
-		NumberofAttempts += 1
-		Gosub SaveAs
-		}
-	Else
+b := "Save File As"
+WinWaitOpen(b)
 Send %A_Desktop%\%A_YYYY%%Last3%`n
 
 WinWaitActive PDF-XChange Editor
@@ -83,7 +65,7 @@ HelloSign1:
 Run https://www.hellosign.com/home/request
 WinWaitActive Open
 	Sleep 50
-Send %A_Desktop%\%A_YYYY%%Last3%`n
+Send %A_Desktop%\%A_YYYY%%Last3%.PDF`n
 MsgBox 1. Upload your document`n2. Move the browser webpage to the main screen and make sure it's MAXIMIZED`n3. Place the cursor in the "Signer's Name" box`n4. Once the HelloSign has finished converting the document, Click OK
 WinActivate, Google Chrome
 	Sleep 500
@@ -111,24 +93,22 @@ Click,372,675 ;click "Where do they need to sign?"
 
 If 5k = 1
 	{
-	SplashTextOn,200,90, Waiting, Once the signature page is finished loading, press the RControl key to continue.
-	WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+	SplashTextFunc(5,5,200,90,"Waiting","Once the signature page is finished loading, press the RControl key to continue.")
 	KeyWait, RControl, D
 		Sleep 250
 	SplashTextOff
 	MouseClick, Left,526,140 ;clicks on "Initials"
-	SplashTextOn,200,90, Waiting, Click to add the Initial box to continue.
-	WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+	SplashTextFunc(5,5,200,90,"Waiting","Click to add the Initial box to continue.")
 	MouseMove 1428,923 ;moves mouse to the down to "about" where the initial box should go
 	KeyWait, LButton, D
 		Sleep 250
+	SplashTextOff
 	Gosub finish
 	}
 WinActivate Google Chrome
 	Sleep 250
 
-SplashTextOn,200,120, Waiting, Click to add the Signature box to continue.
-WinMove, Waiting, , 5, 5 ;move splash window to the top left corner
+SplashTextFunc(5,5,200,120,"Waiting","Click to add the Signature box to continue.")
 KeyWait, LButton, D
 	Sleep 500
 SplashTextOff
@@ -143,17 +123,3 @@ GuiClose:
 ExitApp
 
 ScrollLock::ExitApp
-
-
-
-
-
-
-
-
-
-
-
-
-
-

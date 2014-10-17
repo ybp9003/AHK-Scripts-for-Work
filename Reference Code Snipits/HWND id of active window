@@ -9,7 +9,9 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%
 #SingleInstance
 
-Clipboard := "       2 DOOR  CONTROLLER  "
-Clipboard := Trim(Clipboard)
+; Retrieve the ID/HWND of the active window
+#Up::
+id := WinExist("A")
+MsgBox % id
 ExitApp
 ScrollLock::ExitApp

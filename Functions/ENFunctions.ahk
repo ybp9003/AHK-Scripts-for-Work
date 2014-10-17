@@ -25,7 +25,7 @@ ENNoteRetitle(Title,KeepText = 0)
 		Sleep 250
 	Send {Raw}%Title%
 		Sleep 250
-	Send !s
+	Send ^s
 	Return
 	}
 
@@ -35,9 +35,12 @@ ENDateCreated(CreatedDate)
 	WinActivate AHK_class ENMainFrame
 	WinWaitActive AHK_class ENMainFrame
 	FormatTime, DateToday,,M/dd/yyyy
-	If CreatedDate = %DateToday% ;IF TODAY'S DATE MATCHES THE DATE THE NOTE CREATED DATE VARIABLE
-		Return
-	Click,693,158
+		If CreatedDate = %DateToday% ;IF TODAY'S DATE MATCHES THE DATE THE NOTE CREATED DATE VARIABLE
+			{
+			ToolTip,NO NEED TO CHANGE THE DATE
+			Return
+			}
+	Click,763,158
 	Send %CreatedDate%`n
 	Return
 	}

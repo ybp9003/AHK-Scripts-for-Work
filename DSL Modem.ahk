@@ -81,7 +81,7 @@ WinWaitActive E-Mail Report
 		Sleep 150
 	Send {Tab}
 		Sleep 150
-	Send DSL Modem @09.DSLs {#}%a_yyyy% {#}DSLModem {#}ServiceOrder {#}task {#}%tagTakenBy%
+	Send DSL Modem @09.DSLs {#}%a_yyyy% {#}DSLModem {#}ServiceOrder {#}Task {#}%tagTakenBy%
 If M505N = 1
 	Send {Space}{#}m505n
 If M405 = 1

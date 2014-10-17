@@ -1,6 +1,6 @@
 ﻿;=========================================================================================
 ;IDEAS FOR IMPROVEMENT GO HERE:
-
+;replace TrayTip lines with splash screen function
 ;=========================================================================================
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -9,7 +9,7 @@ SendMode Input  ; Recommended for new scripts due to its superior speed and reli
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
-;Gui, +AlwaysOnTop
+Gui, +AlwaysOnTop
 Gui, Add, Text,, Description
 Gui, Add, Text,, Part Number
 Gui, Add, Text,, Vendor Name
@@ -28,10 +28,12 @@ Gui, Add, Text, ym , Division
 Gui, Add, Text, , Department
 Gui, Add, Text, , GL Account
 Gui, Add, Text, , Sub Account
+Gui, Add, Text, , Work Order
 Gui, Add, Edit, ym w30 h20 vDivision ,
 Gui, Add, Edit, w30 h20 vDepartment,
 Gui, Add, Edit, w70 h20 vGL,
 Gui, Add, Edit, w30 h20 vSub,
+Gui, Add, Edit, w70 h20 vWO,
 Gui, Add, Button, Default , OK
 
 Gui, Show, x-562 y494, Generic Line Item Entry
@@ -106,6 +108,15 @@ Send {F5}
 Send {Raw}%qty%%A_Space%%desc%
 	Sleep 250
 Send {Tab}
+;===================================================================
+IfNotEqual,WO,
+	{
+	WinWaitActive WO Interface
+	Send %WO%%A_Tab%3
+		Sleep 250
+	Send `n
+	}
+;===================================================================
 WinWaitClose GL Accounting
 
 ShowGUI:

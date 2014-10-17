@@ -59,8 +59,21 @@ Send {Tab}
 ExitApp
 
 Instructions:
-MsgBox, Step 1 - You will need the following information at the ready`n1. Item Number`n2. Description of Material (ie. BFC 6x22)`n3. Reel Number`n3. Inner Sequential`n4. Outer Sequential
-MsgBox, 4,,Step 2 - Once the script has collected this information, it wait for you to go to the default Notebook in Evernote and double click the pre-formatted note. This will open it into a separate window. Once the script sees this, it will begin the process of entering the information you have input. Then it will close the note and exit.`nAre you ready!
+Instructions =
+(
+Step 1 - You will need the following information at the ready
+	1. Item Number
+	2. Description of Material (ie. BFC 6x22)
+	3. Inner Sequential
+	4. Reel Number
+	5. Outer Sequential
+	
+Step 2 - Once the script has collected this information, it wait for you to go to the default Notebook in Evernote and double click the pre-formatted note. This will open it into a separate window.
+
+Step 3 - Once the script sees this new window open, it will begin the process of entering the information you have input.
+Then it will close the note and exit.`nAre you ready!
+)
+MsgBox, 4,,%Instructions%
 IfMsgBox No
 	{
 	MsgBox, Ok. Exiting script.

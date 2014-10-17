@@ -10,18 +10,6 @@
 ;=========================================================================================
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ;=========================================================================================
 #Include E:\AHK Scripts for Work\Functions\ENFunctions.ahk
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -29,23 +17,16 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-MsgBox,New function being test to change the "created date"
-
 Gui, Add, ComboBox, x22 y30 w140 h20 vDept , ACCT||ADMIN|BD|COE|BO|HR|IFIX||IP|OSP|OSS|PLT|PMM|SECA
 Gui, Add, ComboBox, x22 y60 w140 vInitiator1 , ALAN LINK||APRIL HANSARD|BERNICE FISCHER|BETTY DRAWE|BILLY WARREN|BRIAN STEGALL||DAVID MOLDENHAUER|DEAN OATES|DELBERT WILSON|DENISE SALTER|JAMES WALLY|JEFF MARKWORDT|JIMMY DREISS|JOE HERRING|JOE KENNISON|JR ABRIGO|KAREN HOLBROOK|KERRY SUTTON|MARISELA RODRIGUEZ|MARK METTING|MICHAEL FREEMAN|PATRICK TINLEY|PATTY FEAGAN|RANDY FARRELL|RANDY HALL|RANDY HENCKEL|SAMANTHA TAYLOR|SANDI KENNEDY|SHANE SCHMIDT|STEVE COPP|
 Gui, Add, Edit, x92 y100 w60 h20 vpoYear , %A_YYYY%
 Gui, Add, Edit, x152 y100 w50 h20 vpoLastThree , 
 Gui, Add, MonthCal, x22 y130 vDate , Month/Day ;Gui, Add, MonthCal, x232 y140 w240 h170 vDate, 
-Gui, Add, GroupBox, x150 y310 w130 h205 , Special Tags
+Gui, Add, GroupBox, x150 y310 w130 h150 , Special Tags
 Gui, Add, CheckBox, x170 y330 w100 h30 vWorkOrder , Work Order
 Gui, Add, CheckBox, x170 y360 w100 h30 vBudgetItem , Budget Item
 Gui, Add, CheckBox, x170 y390 w100 h30 vCreditCard, Credit Card
 Gui, Add, CheckBox, x170 y420 w100 h30 vOnlinePurchase, Online Purchase
-Gui, Add, Checkbox, x170 y450 w100 h30 vHelloSign +Checked, HelloSign
-Gui, Add, Checkbox, x170 y480 w100 h30 vReqSig , Requested Signature
-Gui, Add, Radio, x22 y330 w100 h30 +Checked vPOActive, Purchase Order Notebook
-Gui, Add, Radio, x22 y370 w110 h25 vWarehouse, Warehouse Tasks
-Gui, Add, GroupBox, x12 y310 w120 h95 , Move Note To:
 Gui, Add, Button, x12 y430 w100 h30 Default gSubmit, Submit
 Gui, Add, Text, x22 y10 w140 h20 , Process a PO in Evernote
 Gui, Add, Text, x22 y100 w70 h20 , PO Number
@@ -71,9 +52,6 @@ NewNoteTitle = %poYear%%poLastThree%-PO
 ENNoteRetitle(NewNoteTitle)
 ;CHANGES THE "CREATED DATE" OF THE NOTE
 ENDateCreated(Date)
-; Click 611,157
-	; Sleep 250
-; Send %Date%`n
 	Sleep 1500
 ;===========================================================================================================
 If WorkOrder = 0
@@ -103,25 +81,10 @@ OnlinePurchase:
 If OnlinePurchase = 0
 	{
 	OnlinePurchase = skip
-	Gosub HelloSign
+	Gosub TagExceptions
 	}
 OnlinePurchase = OnlinePurchase
 
-HelloSign:
-If HelloSign = 0
-	{
-	HelloSign = skip
-	Gosub RequestedSignature
-	}
-HelloSign = HelloSign
-
-RequestedSignature:
-If ReqSig = 0
-	{
-	ReqSig = skip
-	Gosub TagExceptions
-	}
-ReqSig = Requested
 ;===========================================================================================================
 TagExceptions:
 If Initiator = RANDYHALL
@@ -148,10 +111,9 @@ If Dept = SECA
 Dept = %Dept%Dept
 ;===========================================================================================================
 ;OPEN THE "Assign Tags" WIDNOW
-;FUNCTION IS IN TESTING PHASE
 ENAssignTags()
 
-Tags = %poYear%{Space}|PurchaseOrder{Space}|%Dept%{Space}|%Initiator%{Space}|%HelloSign%{Space}|%WorkOrder%{Space}|%BudgetItem%{Space}|%CreditCard%{Space}|%OnlinePurchase%{Space}|%ReqSig%{Space}|AutoHotKey
+Tags = %poYear%{Space}|PurchaseOrder{Space}|%Dept%{Space}|%Initiator%{Space}|%WorkOrder%{Space}|%BudgetItem%{Space}|%CreditCard%{Space}|%OnlinePurchase%{Space}|AutoHotKey
 Loop,Parse,Tags, |
 	{
 	If A_LoopField = skip{Space}

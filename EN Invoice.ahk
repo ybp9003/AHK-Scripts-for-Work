@@ -40,9 +40,12 @@ WinWaitActive ahk_class #32770
 	Send %POTag%%A_Space%
 
 WinWaitActive AHK_class ENMainFrame
+If POYear = 
+	Gosub CreatedDate
 NoteTitle = %POYear%%POLastthree%-Inv
 ENNoteRetitle(NoteTitle)
 
+CreatedDate:
 If InvYear != %A_YYYY% ;THIS IF STATEMENT WILL BECOME EFFECTIVE WHEN THE INVOICE YEAR DOESN'T MATCH THE CURRENT YEAR
 	Date = %Date%/%InvYear%
 ENDateCreated(Date)

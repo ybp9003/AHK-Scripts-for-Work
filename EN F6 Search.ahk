@@ -6,9 +6,9 @@
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+; SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; SetWorkingDir C:\Program Files (x86)\Evernote\Evernote\
-
+SetWorkingDir C:\Users\jherring\AppData\Local\Apps\Evernote\Evernote\
 SetTitleMatchMode 2
 	Sleep 500
 Clipboard = 
@@ -20,8 +20,6 @@ if ErrorLevel
     ExitApp
 	}
 
-; NumberofAttempts = 1
-; Repeat:
 IfWinExist C:\Windows\system32\CMD.exe
 	{
 	WinRestore C:\Windows\system32\CMD.exe
@@ -30,7 +28,7 @@ IfWinExist C:\Windows\system32\CMD.exe
 	}
 Else
 	{
-	Run, CMD.exe, C:\Program Files (x86)\Evernote\Evernote\
+	Run, CMD.exe, C:\Users\jherring\AppData\Local\Apps\Evernote\Evernote\
 		Sleep 250
 	WinMove, C:\Windows\system32\CMD.exe, , 317, 1535
 	}
@@ -57,6 +55,7 @@ WinMinimize C:\Windows\system32\CMD.exe
 ; WinActivate Google Chrome
 ; MouseMove, %posX%, %posY%
 ; WinActivate AHK_class ENMainFrame
+;===============================================================================
 
 ExitApp
 ScrollLock::ExitApp
