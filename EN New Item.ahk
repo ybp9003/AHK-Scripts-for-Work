@@ -12,8 +12,7 @@ WinActivate ahk_class ENMainFrame
 {
 	WinWaitActive ahk_class ENMainFrame
 }
-FileCopy %A_Desktop%\Evernote Templates\NewItem -.enex, %A_Desktop%\EN Joe
-TrayTip, Notice, New note created in "Joe's Herrings Notebook",, 1
+FileCopy %A_Desktop%\Evernote Templates\NewItem -.enex, %A_Desktop%\
 ExitApp
 
 ScrollLock::ExitApp

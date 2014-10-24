@@ -2,7 +2,8 @@
 ;IDEAS FOR IMPROVEMENT GO HERE:
 
 ;=========================================================================================
-
+#Include E:\AHK Scripts for Work\Functions\SplashText.ahk
+#SingleInstance Force
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
@@ -19,7 +20,7 @@ if ErrorLevel
     MsgBox, The attempt to copy text onto the clipboard failed.`n`nScript will exit.
     ExitApp
 	}
-
+Clipboard := Trim(Clipboard)
 IfWinExist C:\Windows\system32\CMD.exe
 	{
 	WinRestore C:\Windows\system32\CMD.exe
@@ -55,7 +56,11 @@ WinMinimize C:\Windows\system32\CMD.exe
 ; WinActivate Google Chrome
 ; MouseMove, %posX%, %posY%
 ; WinActivate AHK_class ENMainFrame
-;===============================================================================
 
+; SplashTextFunc(90,5,300,60,"FileRecycle","Press ""PrintScreen"" to recycle Desktop Files`n`n""Scrolllock"" will Exit")
+; KeyWait,PrintScreen,D
+	; Sleep 250
+; FileRecycle,%A_Desktop%\DV\*.*
+;===============================================================================
 ExitApp
 ScrollLock::ExitApp

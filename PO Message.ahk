@@ -8,8 +8,9 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-IfExist,Generic Item Entry.txt
-FileRead,LastUsedGL,Generic Item Entry.txt
+IfExist,Generic Item Entry.ini
+; IniRead, OutputVar, Filename [, Section, Key, Default]
+IniRead,LastUsedGL,Generic Item Entry.ini,LastUsedGL,GL
 
 ; Generated using SmartGUI Creator 4.0
 Gui, Add, Text, , Department
@@ -48,6 +49,8 @@ Return
 ButtonSubmit:
 Gui, Submit
 
+;IniWrite, Value, Filename, Section [, Key] 
+IniWrite,%GL%,Generic Item Entry.ini,LastUsedGL,GL
 StringUpper, CCBuyer, CCBuyer
 
 WinActivate Messages

@@ -6,59 +6,67 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ;RETITLES A NOTE IN EVERNOTE. ONLY ONE PARAMETER IS REQUIRED.====================
 ENNoteRetitle(Title,KeepText = 0)
 	{
-	ControlGet,NoteTitleHWND,Hwnd,,ENAutoCompleteEditCtrl2,AHK_class ENMainFrame,,,
-	ControlFocus,,AHK_id %NoteTitleHWND%
-		Sleep 250
-	Send {F2}
-		Sleep 250
-	If KeepText = 1 ;"EN Gas Receipt.ahk" CHANGES "KeepText" TO 1 SO THAT IT PRESERVES THE EXISTING NOTE TITLE
+		ControlGet,NoteTitleHWND,Hwnd,,ENAutoCompleteEditCtrl2,AHK_class ENMainFrame,,,
+		ControlFocus,,AHK_id %NoteTitleHWND%
+			Sleep 250
+		Send {F2}
+			Sleep 250
+		IfEqual,KeepText,1 ;"EN Gas Receipt.ahk" CHANGES "KeepText" TO 1 SO THAT IT PRESERVES THE EXISTING NOTE TITLE
 		{
+			Send ^a
+				Sleep 250
+			Send ^c
+				Sleep 250
+			StringReplace,newClipboard,Clipboard,`#task ;IF IT DETECTS "#task" IT REMOVES IT
+			SendEvent {Raw}%newClipboard%%Title%`n
+			Return
+		}
 		Send ^a
 			Sleep 250
-		Send ^c
+		Send {Raw}%Title%
 			Sleep 250
-		StringReplace,newClipboard,Clipboard,`#task ;IF IT DETECTS "#task" IT REMOVES IT
-		SendEvent {Raw}%newClipboard%%Title%`n
+		Send ^s
 		Return
-		}
-	Send ^a
-		Sleep 250
-	Send {Raw}%Title%
-		Sleep 250
-	Send ^s
-	Return
 	}
 
-;CHANGE THE DATE THE NOTE WAS CREATED (not working!)
+;CHANGE THE DATE THE NOTE WAS CREATED
 ENDateCreated(CreatedDate)
 	{
-	WinActivate AHK_class ENMainFrame
-	WinWaitActive AHK_class ENMainFrame
-	FormatTime, DateToday,,M/dd/yyyy
-		If CreatedDate = %DateToday% ;IF TODAY'S DATE MATCHES THE DATE THE NOTE CREATED DATE VARIABLE
+		WinActivate AHK_class ENMainFrame
+		WinWaitActive AHK_class ENMainFrame
+		FormatTime, DateToday,,M/dd/yyyy
+			IfEqual,CreatedDate,%DateToday% ;IF TODAY'S DATE MATCHES THE DATE THE NOTE CREATED DATE VARIABLE
 			{
-			ToolTip,NO NEED TO CHANGE THE DATE
-			Return
+				ToolTip,NO NEED TO CHANGE THE DATE
+				Return
 			}
-	Click,763,158
-	Send %CreatedDate%`n
-	Return
+		Click,763,158
+		Send %CreatedDate%`n
+		Return
 	}
 
-ENAssignTags()
+ENAssignTags() ;IMPROVE THIS BY GIVING IT THE ABILITY TO ACCEPT THE TAGS YOU WISH TO APPLY AS PARAMETERS
 	{
-	NumberofAttempts = 1
-StartTagging:
-	Send ^!t
-	WinWaitActive Assign Tags,,2
-	If ErrorLevel
+		NumberofAttempts = 1
+		StartTagging:
+		Send ^!t
+		WinWaitActive Assign Tags,,2
+		If ErrorLevel
 		{
-		If NumberofAttempts = 4
-			MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
+			If NumberofAttempts = 4
+				MsgBox, Four attempts to open the "Assign Tags" window have failed.`n`nOpen the window manually (CTRL ALT T) then press OK.
 		Else
 			NumberofAttempts += 1
 			Gosub StartTagging
 		}
-	Else
-		Sleep 500
+		Else
+			Sleep 500
+		Return
+	}
+	
+ENMoveToNotebook(Notebook)
+	{
+		Click,724,126
+			Sleep 250
+		Send %Notebook%`n
 	}

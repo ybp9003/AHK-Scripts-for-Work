@@ -38,8 +38,12 @@ Return
 Submit:
 Gui, Submit
 
-If poLastThree = 
-	InputBox, poLastThree,, Oops! You must enter the last three numbers of the PO to proceed.
+IfEqual,poLastThree, ;IF NOTHING WAS ENTERED FOR THIS VARIABLE THEN...
+	{
+		ToolTip,OOPS`nThe last three of the PO number are missing!
+		Gui, Show
+		Exit
+	}
 Else	
 StringReplace, Initiator, Initiator1, % " ", , All ;remove spaces
 FormatTime,Date,%Date%, M/d/yyyy ;changes the format of the date reported from "MonthCal" variable from 20080608 to 6/8/2008
@@ -54,58 +58,58 @@ ENNoteRetitle(NewNoteTitle)
 ENDateCreated(Date)
 	Sleep 1500
 ;===========================================================================================================
-If WorkOrder = 0
+IfEqual,WorkOrder,0
 	{
-	WorkOrder = skip
-	Gosub BudgetItem
+		WorkOrder = skip
+		Gosub BudgetItem
 	}
 WorkOrder = WorkOrder
 
 BudgetItem:
-If BudgetItem = 0
+IfEqual,BudgetItem,0
 	{
-	BudgetItem = skip
-	Gosub CreditCard
+		BudgetItem = skip
+		Gosub CreditCard
 	}
 BudgetItem = BudgetItem
 
 CreditCard:
-If CreditCard = 0
+IfEqual,CreditCard,0
 	{
-	CreditCard = skip
-	Gosub OnlinePurchase
+		CreditCard = skip
+		Gosub OnlinePurchase
 	}
 CreditCard = CreditCard
 
 OnlinePurchase:
-If OnlinePurchase = 0
+IfEqual,OnlinePurchase,0
 	{
-	OnlinePurchase = skip
-	Gosub TagExceptions
+		OnlinePurchase = skip
+		Gosub TagExceptions
 	}
 OnlinePurchase = OnlinePurchase
 
 ;===========================================================================================================
 TagExceptions:
-If Initiator = RANDYHALL
+IfEqual,Initiator,RANDYHALL
 	Initiator = R2
 
-If Dept = BO
+IfEqual,Dept,BO
 	Dept = CustomerService
 	
-If Dept = ACCT
+IfEqual,Dept,ACCT
 	Dept = Accounting
 
-If Dept  = BD
+IfEqual,Dept,BD
 	Dept = BusinessDevelopment
 
-If Dept  = HR
+IfEqual,Dept,HR
 	Dept = HumanResources
 
-If Dept = PLT
+IfEqual,Dept,PLT
 	Dept = PlantServices
 
-If Dept = SECA
+IfEqual,Dept,SECA
 	Dept = Security&Alarm
 	
 Dept = %Dept%Dept
@@ -113,23 +117,25 @@ Dept = %Dept%Dept
 ;OPEN THE "Assign Tags" WIDNOW
 ENAssignTags()
 
-Tags = %poYear%{Space}|PurchaseOrder{Space}|%Dept%{Space}|%Initiator%{Space}|%WorkOrder%{Space}|%BudgetItem%{Space}|%CreditCard%{Space}|%OnlinePurchase%{Space}|AutoHotKey
+Tags = %poYear%{Space}|PurchaseOrder{Space}|%Dept%{Space}|%Initiator%{Space}|%WorkOrder%{Space}|%BudgetItem%{Space}|%CreditCard%{Space}|%OnlinePurchase%{Space}
 Loop,Parse,Tags, |
 	{
-	If A_LoopField = skip{Space}
-		Continue
-	SendEvent %A_LoopField%
-	Sleep 1200
+		If A_LoopField = skip{Space}
+			Continue
+		SendEvent %A_LoopField%
+		Sleep 1200
 	}
+IfEqual,Initiator,PATTYFEAGAN
+	SendEvent {Raw}Tri-Ed
 WinWaitActive AHK_class ENMainFrame
 ;===========================================================================================================
 IfWinExist C:\Windows\system32\CMD.exe
 	WinRestore C:\Windows\system32\CMD.exe
 Else
 	{
-	Run, CMD.exe, C:\Program Files (x86)\Evernote\Evernote\
-		Sleep 250
-	WinMove, C:\Windows\system32\CMD.exe, , 317, 1535
+		Run, CMD.exe, C:\Program Files (x86)\Evernote\Evernote\
+			Sleep 250
+		WinMove,C:\Windows\system32\CMD.exe,,317,1535
 	}
 Send ENScript showNotes`n
 	Sleep 750

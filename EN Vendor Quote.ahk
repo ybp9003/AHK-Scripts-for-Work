@@ -18,11 +18,11 @@ QuoteYear = %A_YYYY%
 ENAssignTags()
 Send %A_YYYY%%A_Space%
 	Sleep 1200
-Send quote%A_Space%
+Send Quote%A_Space%
 	Sleep 1200
 
 WinWaitActive AHK_class ENMainFrame
-NoteTitle = %QuoteYear%x-Quote %quote%
+NoteTitle = %QuoteYear%X-QUOTE %quote%
 ENNoteRetitle(NoteTitle)
 ExitApp
 

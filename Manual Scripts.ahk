@@ -7,5 +7,5 @@ FileSelectFile, SelectedFile, 3, E:\AHK Scripts for Work\Manual Execute, AutoHot
 if SelectedFile =
 	ExitApp
 else
-    MsgBox, The user selected the following:`n%SelectedFile%
+    Run %SelectedFile%
 ExitApp

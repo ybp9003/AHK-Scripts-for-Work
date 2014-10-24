@@ -1,0 +1,322 @@
+;=========================================================================================
+;IDEAS FOR IMPROVEMENT GO HERE:
+
+;=========================================================================================
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+SetTitleMatchMode, 1
+
+ClipWaitError()
+	{
+		ToolTip,Nothing was copied to the Clipboard`n
+		ToolTip
+		Return
+	}
+
+PathToScripts := "E:\AHK Scripts for Work\"
+
+;_____________________________________________________________________________________
+^+4::
+Run %PathToScripts%40 percent markup.ahk
+Return
+
+;_____________________________________________________________________________________
+#IfWinActive Employee Self Serve - Google Chrome
+:*:Time::
+Run %PathToScripts%Chrome Timesheet Entry.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+#IfWinActive AHK_class rctrl_renwnd32 ;microsoft outlook
+:*:/ro::
+Run %PathToScripts%EN RO Authorized.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+#IfWinActive ahk_class Progman
+:*:,go::
+Run %PathToScripts%NISC ABS SIS.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+:*:PN::P/N{space}
+:*:ofs::OUT FOR SIGNATURES
+:*:pcc::PURCHASED WITH CREDIT CARD
+:*:,hil::Hill Country Telephone Coop
+:*:,pur::purchasing@hctc.coop
+:*:,pas::Hctc.367
+:?*:@jh::jherring@hctc.coop
+:?*:@bs::bstanford@hctc.coop
+:?*:@cb::cbenton@hctc.coop
+:?*:@jh::jherring@hctc.coop ;the question mark makes it possible to have text directly precede the hotstring
+:?*:@JM::jmarkwordt@hctc.coop
+:?*:@AJD::jdreiss@hctc.coop
+:?*:@JW::jwally@hctc.coop
+:?*:@DM::dmoldenhauer@hctc.coop
+:?*:@ns::nchandy@hctc.coop
+:?*:@PTI::ptinley@hctc.coop
+:?*:@SC::scopp@hctc.coop
+:?*:@RMF::rfarrell@hctc.coop
+:?*:@DO::dochoa@hctc.coop
+:?*:@RHE::rhenckel@hctc.coop
+:?*:@ss::sschmidt@hctc.coop
+:?*:@hc::@hctc.coop
+
+;_____________________________________________________________________________________
+^#f::
+Run %PathToScripts%Chrome Format Painter.ahk
+Return
+
+;_____________________________________________________________________________________
+#IfWinActive HCTC Vehicle Report - Google Sheets - Google Chrome
+^q::
+Run %PathToScripts%Chrome Search for Vehicle Number.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+#z::
+Run %PathToScripts%Alt Tab Paste.ahk
+Return
+
+;_____________________________________________________________________________________
+#IfWinActive HCTC RO Log - Google Chrome
+#\::
+Run %PathToScripts%Chrome New RO Numbers.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+#IfWinActive Task Remarks
+:*:*1Z::
+Run %PathToScripts%DSL Modem.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+:?*:posig:: ;Opens the "HelloSign" script
+Run %PathToScripts%HelloSign.ahk
+Return
+
+;_____________________________________________________________________________________
+^+~::
+Run %PathToScripts%zQuickScript.ahk
+Return
+
+;_____________________________________________________________________________________
+^#h::
+Run %PathToScripts%Quick List of script commands.ahk
+Return
+
+;_____________________________________________________________________________________
+^#m::
+Run %PathToScripts%Manual Scripts.ahk
+Return
+
+;_____________________________________________________________________________________
+^!n::
+IfWinExist ahk_class Notepad++
+	WinActivate
+else
+	Run Notepad++.exe, E:\NotePad++ Portable
+IfWinExist AutoHotKey Scripts
+	Return
+else
+	Run E:\AHK Scripts for Work
+return
+
+;_____________________________________________________________________________________
+:?*:dts:: ;auto enter Date and Time
+FormatTime, CurrentDateTime,, M/d/yyyy h:mm tt  ; It will look like 6/29/2008 10:35 AM
+SendInput %CurrentDateTime%
+return
+
+;_____________________________________________________________________________________
+:*:,th:: ;email signature
+Run %PathToScripts%Outlook Email Signature.ahk
+Return
+
+;_____________________________________________________________________________________
+^+z:: ;copies the selected text to clipboard and does a global search in Evernote
+Run %PathToScripts%EN F6 Search.ahk
+Return
+
+;_____________________________________________________________________________________
+^u:: ; Convert text to UPPERCASE
+ Clipboard = ;empties the clipboard
+ Send ^c
+ ClipWait, 2
+	IF ErrorLevel
+		ClipWaitError()
+ StringUpper Clipboard, Clipboard
+ Send {Raw}%Clipboard%
+RETURN
+
+;_____________________________________________________________________________________
+^l:: ; Convert text to lowercase
+ Clipboard = ;empties the clipboard
+ Send ^c
+ ClipWait, 2
+	IF ErrorLevel
+		ClipWaitError()
+ StringLower Clipboard, Clipboard
+ Send {Raw}%Clipboard%
+RETURN
+
+;_____________________________________________________________________________________
+^+u:: ; capitalizes first letter of each word
+ Clipboard = ;empties the clipboard
+ Send ^c
+ ClipWait, 2
+	IF ErrorLevel
+		ClipWaitError()
+ StringUpper Clipboard, Clipboard, T
+ Send {Raw}%Clipboard%
+RETURN
+
+;_____________________________________________________________________________________
+:*:/NewQT::
+Run %PathToScripts%EN New Quote.ahk
+Return
+
+;-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+
+;BEGIN WINDOW SENSATIVE COMMANDS "PO MESSAGE SCREEN"
+#IfWinActive ahk_class SunAwtDialog
+:*:init/::
+;Run S:\Joe\AutoHotKey Scripts\
+Run %PathToScripts%PO Message.AHK
+Return
+;======================================================================================================
+#IfWinActive ;END WINDOW SENSATIVE COMMANDS "PO MESSAGE SCREEN"
+
+;-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+
+#IfWinActive AHK_class ENMainFrame ;BEGIN WINDOW SENSATIVE COMMANDS "ENMainFrame"
+;_____________________________________________________________________________________
+:*:/tagfleet::
+Run %PathToScripts%EN Fleet Card Docs Tags.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/veh::
+Run %PathToScripts%EN Billys Reports.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/enPO::
+Run %PathToScripts%EN PO.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/ENCC:: ;Process Credit Card recipts with no PO in Evernote
+Run %PathToScripts%EN Credit Card No PO.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/ENqt::
+Run %PathToScripts%EN Vendor Quote.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/uni::
+Run %PathToScripts%EN Unifirst.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:\t:: ;AutoInsert "Tag:" into Evernote search bar
+	Send tag{:}
+Return
+
+;_____________________________________________________________________________________
+:*:frs2:: ;Fuel Receipt Stage 2 in Evernote
+Run %PathToScripts%EN Gas Receipt.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/invTJ::
+Run %PathToScripts%EN TJ Moore Invoice.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/invHCE::
+Run %PathToScripts%EN Hill Country Electric Invoice.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/ENinv::
+Run %PathToScripts%EN Invoice.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/ENReq::
+Run %PathToScripts%EN Req.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/newitem::
+Run %PathToScripts%EN New Item.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/NewREEL::
+Run %PathToScripts%EN New Reel.ahk
+Return
+
+;_____________________________________________________________________________________
+:*:/qtrn::
+Run %PathToScripts%EN Rename Quotes.ahk
+Return
+
+;======================================================================================================
+;END WINDOW SENSATIVE COMMANDS "ENMainFrame"
+#IfWinActive
+;-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+-=+|-=+|-=+
+;BEGIN WINDOW SENSATIVE COMMANDS "GL Accounting Or SunAwtFrame"
+#If WinActive("GL Accounting") OR WinActive("ahk_class SunAwtFrame")
+
+;_____________________________________________________________________________________
+#!G:: ;Generic GL Entry
+Run %PathToScripts%GL Generic Item entry.ahk
+Return
+
+;======================================================================================================
+;END WINDOW SENSATIVE COMMANDS "GL Accounting" "AHK_class SunAwtFrame"me"
+#IfWinActive
+
+;_____________________________________________________________________________________
+#ifwinactive ahk_class rctrl_renwnd32
+:*:,gas:: ;Send gas receipt to Evernote
+Run %PathToScripts%Outlook Gas Receipt.ahk
+#Ifwinactive
+Return
+
+;_____________________________________________________________________________________
+#IfWinActive ahk_class SunAwtDialog
+:*:,ven:: ;makes the process of selecting a vendor for a quote easier
+Run %PathToScripts%NISC Vendor Selection.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+#IfWinActive ahk_class SunAwtFrame
+:*:0g::
+Run %PathToScripts%NISC PO Line Item Entry.ahk
+Return
+#IfWinActive
+
+;_____________________________________________________________________________________
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
+;-----------------------------------------------------------------------------------
++Scrolllock::ExitApp

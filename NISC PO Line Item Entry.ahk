@@ -42,8 +42,11 @@ Return
 ButtonOK:
 Gui, Submit
 StringUpper, desc, desc
+desc := Trim(desc)
 StringUpper, partnumber, partnumber
+partnumber := Trim(partnumber)
 StringUpper, vendor, vendor
+vendor := Trim(vendor)
 StringUpper, ldesc, ldesc
 
 WinActivate 46575app 46575 - Hill Country Telephone ABS
@@ -112,14 +115,26 @@ Send {Tab}
 IfNotEqual,WO,
 	{
 	WinWaitActive WO Interface
-	Send %WO%%A_Tab%3
+	Send %WO%
 		Sleep 250
+	Send %A_Tab%
+		Sleep 250
+	Send 3
 	Send `n
 	}
 ;===================================================================
 WinWaitClose GL Accounting
 
 ShowGUI:
+LastUsedGL = %Division%.%Department%.%GL%.%Sub%
+;IniWrite, Value, Filename, Section [, Key]
+IniWrite,%LastUsedGL%,Generic Item Entry.Ini,LastUsedGL,GL
+IniWrite,%Division%,Generic Item Entry.Ini,LastUsedGL,Div
+IniWrite,%Department%,Generic Item Entry.Ini,LastUsedGL,Dept
+IniWrite,%GL%,Generic Item Entry.Ini,LastUsedGL,GLAccount
+IniWrite,%Sub%,Generic Item Entry.Ini,LastUsedGL,GLsub
+
+
 Gui, Show
 Exit
 

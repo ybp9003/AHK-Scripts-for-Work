@@ -11,9 +11,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode 2 ;matches partial window titles
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-IfExist,Generic Item Entry.txt
-	FileDelete,Generic Item Entry.txt
-
 ; Generated using SmartGUI Creator 4.0
 ; Gui, Add, Text, x22 y10 w110 h30 , Enter the desired GL into the boxes below
 Gui, Add, Text, , Quantity
@@ -35,11 +32,12 @@ Return
 
 ButtonSubmit:
 Gui, Submit
-FileAppend,%Division%.%Department%.%GL%.%Sub%,Generic Item Entry.txt
+; IniWrite, Value, Filename, Section [, Key] 
+IniWrite,%Division%.%Department%.%GL%.%Sub%,Generic Item Entry.Ini,LastUsedGL,GL
 ;=======================================================================
 Clipboard =
-SplashTextOn,190,100,Copy Description,Place the cursor in the "Item Description" and press RControl
-	WinMove,Copy Description,,5,5
+SplashText = Copy Description,Place the cursor in the "Item Description" and press RControl
+SplashTextFunc(5,5,190,100,"Copy Description",SplashText)
 KeyWait,RControl, D
 	SplashTextOff
 	Sleep 250
@@ -110,7 +108,7 @@ Send {Raw}%qty%%A_Space%%desc%
 	Sleep 250
 Send {Tab}
 ;=======================================================================
-IfNotEqual,WO,
+IfNotEqual,WO, ;IF THE %WO% VARIABLE IS 'NOT' BLANK
 	{
 	WinWaitActive WO Interface
 	Send %WO%
@@ -122,51 +120,6 @@ IfNotEqual,WO,
 	}
 ;=======================================================================
 WinWaitClose GL Accounting
-
-; WinActivate ahk_class SunAwtFrame
-; WinWaitActive GL Accounting
-	; Sleep 500
-;=======================================================================
-; If Division = 0
-	; Gosub GLAcct
-; Click,46,110,2 ;GL DIV
-	; Sleep 500
-; Send {Raw}%Division%
-	; Sleep 250
-;=======================================================================
-; GLAcct:
-; If GL = NA
-	; Gosub GLDept
-; Click 208,110
-	; Sleep 250
-; Send {Raw}%GL%.%Sub% ;GL Number.Sub Account
-	; Sleep 250
-;=======================================================================
-; GLDept:
-; If Division = 0
-	; Gosub GLRef
-; Click 330,110 ;GL DEPT
-	; Sleep 500
-; Send {Raw}%Department% ;GL DEPTARTMENT
-	; Sleep 250
-;=======================================================================
-; GLRef:
-; Click 573,110,2
-	; Sleep 250
-; Send ^a
-	; Sleep 250
-; Send {Raw}%qty%%A_Space%%desc%
-	; Sleep 250
-; Send {Tab}
-; ===================================================================UNTESTED
-; IfNotEqual WO,
-	; {
-	; MsgBox the variable WO was not blank
-	; WinWaitActive WO Interface
-	; Send %WO%%A_Tab%3`n
-	; }
-;=======================================================================
-; WinWaitClose GL Accounting
 	
 SplashTextOff
 	Gui, Show

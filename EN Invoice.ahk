@@ -9,7 +9,7 @@
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 Gui, Add, Text, x12 y10 , MM/DD of the invoice
-Gui, Add, Text, x12 y30 , PO Number
+Gui, Add, Text, x12 y30 , PO/RO Number
 Gui, Add, Edit, x142 y10 w100 h20 vdate , mm/dd
 Gui, Add, Edit, x242 y30 w70 h20 vPOLastthree, xxx
 Gui, Add, Edit, x142 y30 w100 h20 vPOYear , %A_YYYY%
@@ -25,13 +25,12 @@ Gui, Submit
 POTag = PurchaseOrder
 ;GIVES THE VARIABLE THE YEAR IN TWO DIGITS
 FormatTime, TwoDigitYear,,y
-;IF POYear IS TWO DIGITS AND A DASH, THEN THIS IS AN INVOICE FOR AN RO NUMBER AND THE POTAG IS CHANGED FROM PURCHASEORDER TO RONUMBER
-If POYear = %TwoDigitYear%-
+IfEqual,POYear,%TwoDigitYear%- ;IF POYear IS TWO DIGITS AND A DASH, THEN THIS IS AN INVOICE FOR AN RO NUMBER AND THE POTAG IS CHANGED FROM PURCHASEORDER TO RONUMBER
 	POTag = RONumber
 WinActivate AHK_class ENMainFrame
 	WinWaitActive AHK_class ENMainFrame
 
-Send ^!t
+ENAssignTags()
 WinWaitActive ahk_class #32770
 	Send %InvYear%%A_Space%
 		Sleep 1000
